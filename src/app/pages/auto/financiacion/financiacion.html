@@ -1,0 +1,58 @@
+<div class="modal-overlay" (click)="cerrarModal()"></div>
+
+<div class="modal-content">
+  <button class="cerrar" (click)="cerrarModal()">✖</button>
+
+  <div class="financiacion-container">
+    <h1 class="titulo">Simulador de Financiación</h1>
+
+    <p class="precio">Precio del vehículo: <strong>$ {{ precio() }}</strong></p>
+
+    <form [formGroup]="form" (ngSubmit)="calcular()" class="formulario">
+      <label for="cuotas">Cantidad de cuotas:</label>
+      <select id="cuotas" formControlName="cuotas">
+        <option value="" disabled selected>Seleccione las cuotas...</option>
+        @for (t of tasas; track $index) {
+          <option [value]="t.cuotas">{{ t.cuotas }} cuotas</option>
+        }
+      </select>
+
+      <button type="submit" class="btn">Calcular</button>
+    </form>
+
+    @if (cuotasSeleccionadas()) {
+      <div class="resultado mt-3">
+        <p><strong>Cuota mensual:</strong> $ {{ cuotaMensual() }}</p>
+        <p><strong>Total intereses:</strong> $ {{ totalIntereses() }}</p>
+        <p><strong>Total pagado:</strong> $ {{ totalPagado() }}</p>
+      </div>
+
+      <hr>
+
+      <h3 class="detalle-titulo">Detalle del plan</h3>
+
+      <div class="tabla-container">
+        <table class="tabla-detalle">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Interés</th>
+              <th>Amortización</th>
+              <th>Saldo restante</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (fila of detalle(); track fila.numero) {
+              <tr>
+                <td>{{ fila.numero }}</td>
+                <td>$ {{ fila.interes }}</td>
+                <td>$ {{ fila.amortizacion }}</td>
+                <td>$ {{ fila.saldoRestante }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+</div>

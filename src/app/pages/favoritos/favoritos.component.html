@@ -1,0 +1,54 @@
+<div class="favoritos-container">
+
+<div class = "filtros">
+  <select class = "filtro_marcas" (change)="busquedaService.actualizarFiltros({ marca: $any($event.target).value })">
+  <option value="">Todas las marcas</option>
+  @for (marca of this.busquedaService.obtenerMarcasDisponibles(autosFavoritos()); track $index) {
+    <option [value]="marca">{{marca}}</option>
+  }
+</select>
+
+<select class = "filtro_km" (change)="busquedaService.actualizarFiltros({ kmMax: +$any($event.target).value })">
+  <option value="">Sin límite</option>
+  <option value="100000">Hasta 100.000 km</option>
+  <option value="50000">Hasta 50.000 km</option>
+</select>
+</div>
+
+<div class = "ordenamiento">
+  <select class = "select-ordenamiento" [value]="this.busquedaService.opcionesOrdenamiento()" (change)="this.busquedaService.opcionesOrdenamiento.set($any($event.target).value)">
+    <option value="precioAsc">Precio - Menor a Mayor</option>
+    <option value="precioDesc">Precio - Mayor a Menor</option>
+    <option value="kmAsc">Kilómetraje - Menor a Mayor</option>
+    <option value="kmDesc">Kilómetraje - Mayor a Menor</option>
+    <option value="anioAsc">Año - Más Viejo a Más Nuevo</option>
+    <option value="anioDesc">Año - Más Nuevo a Más Viejo</option>
+    <option value="A - Z">A - Z</option>
+    <option value="Z - A">Z - A</option>
+  </select>
+</div>
+
+
+  <h1 class="titulo">Mis Autos Favoritos</h1>
+  @let autos = this.autosFavoritosFiltrados();
+
+  @if (autos && autos.length > 0){
+    <div class="card">
+        @for (auto of autos; track auto.auto.id){
+          <div class="card-image">
+            <img [src]="auto.imagen[0]" alt="auto.nombreModelo" />
+          </div>
+          <div class="card-content">
+            <h3>{{auto.marca.nombre}} {{auto.modelo.nombre}}</h3>
+            <p class="anio">Año: {{ auto.anio }}</p>
+            <p class="precio">Precio: u$s {{ auto.auto.precio }}</p>
+            <button class="detalle-btn" [routerLink]="['/detalle', auto.auto.id]" routerLinkActive="active">Ver Detalle</button>
+          </div>
+        }
+
+    </div>
+  }
+  @else{
+    <h3>No hay autos en la lista</h3>
+  }
+</div>

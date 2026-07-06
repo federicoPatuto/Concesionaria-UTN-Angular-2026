@@ -1,0 +1,25 @@
+<header>
+    <nav>
+        <a routerLink="/catalogo" routerLinkActive="active">Catálogo</a>
+        @if(auth.getUsuarioEnLinea() != null){
+            <button class="logout" (click)="auth.logout()">
+                Cerrar sesión
+            </button>
+            <p>{{auth.getUsuarioEnLinea()?.nombre}}</p>
+            <a routerLink="/citas" routerLinkActive="active">{{auth.getUsuarioEnLinea()!.tipo === 'cliente' ? 'Mis Citas' : 'Citas de Clientes'}}</a>
+            @if(auth.getUsuarioEnLinea()?.tipo === 'cliente'){
+                <a routerLink="/favoritos" routerLinkActive="active">Mis favoritos</a>
+            }
+            @else{
+                <a routerLink="/agregar-auto" routerLinkActive="active">Agregar Auto</a>
+            }
+        }
+        @else{
+            <a class="login" routerLink="/login" routerLinkActive="active">Iniciar Sesión</a>
+            <a class="sign-up" routerLink="/sign-up" routerLinkActive="active">Registrarse</a>
+        }
+    @if (mostrarBuscador()){
+        <input type="text" (input)="buscarAuto($event)" placeholder="Busca un auto...">
+    }
+    </nav>
+</header>

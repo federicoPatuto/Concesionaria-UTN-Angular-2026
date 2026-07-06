@@ -1,0 +1,37 @@
+<h2>{{usuarioEnLinea()?.tipo === 'cliente' ? 'Mis citas' : 'Citas de mi sucursal'}}</h2>
+
+@if(usuarioEnLinea()?.tipo === 'cliente'){
+    @if(citasCliente() && citasCliente().length > 0){
+        <ul>
+        @for (cita of citasCliente(); track cita.cita.id) {
+            <div class="citas-container">
+            <li>
+                <h3>{{cita.auto.marca.nombre}} {{cita.auto.modelo.nombre}} {{cita.auto.anio}}</h3>
+                <p class="detalle-fechas">{{cita.cita.fecha}} -- {{cita.cita.hora}} || {{cita.auto.concesionaria.nombre}} Dirección: {{cita.auto.concesionaria.direccion}}</p>
+                <button class="eliminar-cita" type = "button" (click)="eliminarCita(cita.cita.id)">Eliminar</button>
+            </li>
+            </div>
+        }
+        </ul>
+    }
+    @else{
+        <h3>No hay citas registradas</h3>
+    }
+}
+@else if(usuarioEnLinea()?.tipo === 'admin'){
+    @if(citasAdmin() && citasAdmin().length > 0){
+        <ul>
+        @for (cita of citasAdmin(); track cita.cita.id) {
+            <div class="citas-admin">
+            <li>
+                <h3>{{cita.auto.marca.nombre}} {{cita.auto.modelo.nombre}} {{cita.auto.anio}}</h3>
+                <p class="detalles-fechas-admin">{{cita.cita.fecha}} -- {{cita.cita.hora}} || Cliente: {{cita.cliente.nombre}}</p>
+            </li>
+            </div>
+        }
+        </ul>
+    }
+    @else{
+        <h3>No hay citas registradas</h3>
+    }
+}

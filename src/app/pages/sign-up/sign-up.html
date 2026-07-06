@@ -1,0 +1,19 @@
+<div class="signup-container">
+  <h2>Crear cuenta</h2>
+  <form (ngSubmit)="singUp()" #form="ngForm">
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="newUser.nombre" name="nombre" required />
+
+    <label>Email</label>
+    <input type="email" [(ngModel)]="newUser.email" name="email" required />
+
+    <label>Contraseña</label>
+    <input type="password" [(ngModel)]="newUser.password" name="contraseña" required />
+
+    <label>Teléfono</label>
+    <input type="text" [(ngModel)]="newUser.telefono" name="telefono" required />
+
+    <button type="submit">Registrarse</button>
+  </form>
+</div>
+

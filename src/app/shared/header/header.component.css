@@ -1,0 +1,101 @@
+/* --- HEADER GENERAL --- */
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+header {
+  background: #1f1f1f;          /* Fondo moderno oscuro */
+  padding: 15px 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* --- LINKS BASE (Catálogo, citas, favoritos, etc.) --- */
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: .2s ease;
+}
+
+nav a:hover {
+  background: rgba(255,255,255,0.15);
+  transform: scale(1.03);
+}
+
+/* --- BOTÓN CATALOGO (puede quedar como destacado) --- */
+.catalogo {
+  background: #007bff;
+}
+
+.catalogo:hover {
+  opacity: .85;
+}
+
+/* --- BOTÓN LOGIN --- */
+.login {
+  background: #28a745;
+}
+
+.login:hover {
+  opacity: .85;
+}
+
+/* --- BOTÓN SIGN-UP --- */
+.sign-up {
+  background: #17a2b8;
+}
+
+.sign-up:hover {
+  opacity: .85;
+}
+
+/* --- BOTÓN LOGOUT (gris) --- */
+header nav button.logout {
+padding: 11px 22px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+header nav button.logout:hover {
+   opacity: 0.85;
+  transform: scale(1.03);
+}
+
+/* --- INPUT BUSCADOR --- */
+nav input[type="text"] {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #2b2b2b;
+  color: white;
+  outline: none;
+  transition: 0.2s;
+}
+
+nav input[type="text"]::placeholder {
+  color: #bbbbbb;
+}
+
+nav input[type="text"]:focus {
+  border-color: #007bff;
+  background: #1c1c1c;
+}
+
+/* --- NOMBRE DEL USUARIO (p) --- */
+nav p {
+  color: #ffffff;
+  font-weight: bold;
+  margin: 0 10px;
+}

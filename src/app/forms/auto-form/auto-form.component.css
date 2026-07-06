@@ -1,0 +1,149 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+/* ================================
+   FORMULARIO PRINCIPAL
+   ================================ */
+
+form {
+  max-width: 550px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+input:focus,
+select:focus {
+  border-color: #4e8df5;
+  outline: none;
+  box-shadow: 0 0 4px rgba(78, 141, 245, 0.4);
+}
+
+/* Texto de error */
+p {
+  margin: 0;
+  font-size: 13px;
+  color: #d9534f;
+}
+
+/* Botones generales */
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+/* Botón de submit */
+button[type="submit"] {
+  background: #4caf50;
+  color: white;
+}
+
+button[type="reset"] {
+  background: #f0ad4e;
+  color: white;
+}
+
+button[disabled] {
+  background: #999 !important;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Botón cancelar edición */
+button.cancelar-edicion {
+  background: #d9534f;
+  color: white;
+}
+
+/* Botones secundarios (Agregar marca/modelo) */
+button[type="button"] {
+  background: #0275d8;
+  color: white;
+}
+
+/* ================================
+   MODALES
+   ================================ */
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Caja interna del modal */
+.modal > div {
+  background: white;
+  padding: 25px;
+  width: 350px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  animation: scaleIn 0.25s ease-out;
+}
+
+/* Botones dentro del modal */
+.modal button {
+  width: 100%;
+}
+
+/* Guardar */
+.modal button:first-of-type {
+  background: #4caf50;
+  color: white;
+}
+
+/* Cancelar */
+.modal button:last-of-type {
+  background: #d9534f;
+  color: white;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

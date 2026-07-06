@@ -1,0 +1,111 @@
+
+@let detalleAuto = detalleAutoComputed();
+@let usuarioEnLinea = this.authService.getUsuarioEnLinea();
+
+@if(isLoading()){
+  <p>Cargando...</p>
+}
+  @if (detalleAuto) {
+
+      <div class="detalle-container" [class.blur]="mostrarFinanciacion()">
+
+
+      <div class="galeria">
+
+        <img class="car-img-principal" [src]="detalleAuto.imagen[currentIndex]" alt="Foto del auto" />
+
+        <div class="miniaturas">
+          @for (img of detalleAuto.imagen; track $index; let i = $index) {
+            <img
+              class="miniatura"
+              [class.activa]="i === currentIndex"
+              [src]="img"
+              (click)="currentIndex = i"
+            />
+          }
+        </div>
+      </div>
+
+      <div class="info-auto">
+        <h2>{{ detalleAuto.marca.nombre }} {{ detalleAuto.modelo.nombre }} ({{ detalleAuto.anio }})</h2>
+
+        <p><strong>Precio:</strong> ${{ detalleAuto.auto.precio }}</p>
+        <p><strong>Color:</strong> {{ detalleAuto.auto.color }}</p>
+        <p><strong>Kilometraje:</strong> {{ detalleAuto.auto.kilometros }} km</p>
+        <p><strong>Potencia:</strong> {{ detalleAuto.modelo.hp }}</p>
+        <p><strong>Transmisión:</strong> {{ detalleAuto.modelo.transmision }}</p>
+        <p><strong>Combustible:</strong> {{ detalleAuto.modelo.combustible }}</p>
+
+        <p><strong>Concesionaria:</strong> {{ detalleAuto.concesionaria.nombre }}</p>
+        <p><strong>Teléfono:</strong> {{ detalleAuto.concesionaria.telefono }}</p>
+        <p><strong>Dirección:</strong> {{ detalleAuto.concesionaria.direccion }}</p>
+
+        <div class="botones">
+          <button class="volver" (click)="volver()">Volver al catálogo</button>
+          <button class="btn btn-primario" (click)="abrirFinanciacion(detalleAuto.auto.precio)">Calcular financiación</button>
+
+          @if (!usuarioEnLinea || usuarioEnLinea.tipo === 'cliente'){
+            @if(usuarioEnLinea?.tipo === 'cliente' && this.favoritosService.esFavorito(detalleAuto.auto.id)){
+              <button class="favoritos" (click)="eliminarFavorito(detalleAuto.auto.id)">Eliminar de Favoritos</button>
+            }
+            @else{
+              <button class="favoritos" (click)="agregarFavorito(detalleAuto.auto.id)">Agregar a Favoritos</button>
+            }
+
+            <button class="cita" (click)="mostrarForm()">Solicitar Cita</button>
+            @if(formularioVisible()){
+              <div class="formulario-cita">
+                <form [formGroup]="formCita" (ngSubmit)="onSubmit()">
+
+                  <label>Fecha</label>
+                  <input type="date" formControlName="fecha">
+                  @if(formCita.get('fecha')?.touched && formCita.get('fecha')?.errors?.['required']){
+                    <p style="color: red">El campo fecha es obligatorio</p>
+                  }
+
+                  <label>Hora</label>
+                  <input type="time" formControlName="hora">
+                  @if(formCita.get('hora')?.touched && formCita.get('hora')?.errors?.['required']){
+                    <p style="color: red">El campo horario es obligatorio</p>
+                  }
+
+                  <label>Motivo</label>
+                  <input type="text" formControlName="motivo" placeholder="Motivo de la cita (opcional)">
+
+                  <input type="hidden" formControlName="idUsuario">
+                  <input type="hidden" formControlName="idAuto">
+                  <input type="hidden" formControlName="idConcesionaria">
+
+                  <button type="submit" [disabled]="formCita.invalid">Confirmar Cita</button>
+                  <button type ="reset">Limpiar</button>
+                  <button type = "button" (click)="ocultarForm()">Cerrar</button>
+
+                </form>
+              </div>
+            }
+          }
+          @else {
+            <button class="eliminar" type="button" (click)="eliminarAuto(detalleAuto.auto.id)">Eliminar</button>
+            <button class="Editar" type="button" (click)="activarEdicion()">Editar</button>
+            @if(modoEdicion()){
+              <app-auto-form [auto]="detalleAuto" [modoEdicion]="true" (guardar)="guardarCambios($event)" (cancelar)="cancelarEdicion()"></app-auto-form>
+            }
+
+          }
+        </div>
+      </div>
+    </div>
+
+  } @else {
+    <p>No se encontró el auto</p>
+  }
+
+  <!-- MODAL DE FINANCIACIÓN -->
+@if (mostrarFinanciacion()) {
+  <div class="overlay">
+    <app-financiacion
+      [precio]="precioSeleccionado()!"
+      (cerrarFinanciacion)="cerrarFinanciacion()">
+    </app-financiacion>
+  </div>
+}

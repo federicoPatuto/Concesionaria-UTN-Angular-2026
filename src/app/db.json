@@ -1,0 +1,234 @@
+{
+  "marcas": [
+    {
+      "id": "1",
+      "nombre": "Toyota"
+    },
+    {
+      "id": "2",
+      "nombre": "Ford"
+    },
+    {
+      "id": "3",
+      "nombre": "Chevrolet"
+    },
+    {
+      "id": "4",
+      "nombre": "Subaru"
+    }
+  ],
+  "modelos": [
+    {
+      "id": "1",
+      "nombre": "Corolla",
+      "anio": 2022,
+      "hp": 140,
+      "transmision": "Automática",
+      "combustible": "Nafta",
+      "idMarca": 1
+    },
+    {
+      "id": "2",
+      "nombre": "Yaris",
+      "anio": 2023,
+      "hp": 120,
+      "transmision": "Manual",
+      "combustible": "Nafta",
+      "idMarca": 1
+    },
+    {
+      "id": "3",
+      "nombre": "Fiesta",
+      "anio": 2021,
+      "hp": 130,
+      "transmision": "Manual",
+      "combustible": "Nafta",
+      "idMarca": 2
+    },
+    {
+      "id": "4",
+      "nombre": "Cruze",
+      "anio": 2022,
+      "hp": 150,
+      "transmision": "Automática",
+      "combustible": "Diesel",
+      "idMarca": 3
+    },
+    {
+      "id": "5",
+      "nombre": "Corolla",
+      "anio": 2021,
+      "hp": 240,
+      "transmision": "Automatica",
+      "combustible": "Diesel",
+      "idMarca": 1
+    },
+    {
+      "id": "6",
+      "nombre": "Impreza",
+      "anio": 2018,
+      "hp": 440,
+      "transmision": "Automatica",
+      "combustible": "Nafta",
+      "idMarca": 4
+    },
+    {
+      "id": "7",
+      "nombre": "Eco Sport",
+      "anio": 2015,
+      "hp": 130,
+      "transmision": "Manual",
+      "combustible": "Nafta",
+      "idMarca": 2
+    },
+    {
+      "id": 8,
+      "nombre": "Etios",
+      "anio": 2020,
+      "hp": 100,
+      "transmision": "Manual",
+      "combustible": "Diesel",
+      "idMarca": 1
+    }
+  ],
+  "concesionarias": [
+    {
+      "id": "1",
+      "nombre": "Concesionaria Norte",
+      "direccion": "Av. Siempre Viva 123",
+      "email": "norte@autos.com",
+      "telefono": "1122334455"
+    },
+    {
+      "id": "2",
+      "nombre": "Concesionaria Sur",
+      "direccion": "Calle Falsa 456",
+      "email": "sur@autos.com",
+      "telefono": "1199887766"
+    }
+  ],
+  "autos": [
+    {
+      "id": "1",
+      "precio": 22000000,
+      "color": "Blanco",
+      "kilometros": 15000,
+      "disponible": true,
+      "imagen": [
+        "https://http2.mlstatic.com/D_NQ_NP_2X_721603-MLA95057111798_102025-F.webp",
+        "https://http2.mlstatic.com/D_NQ_NP_2X_925740-MLA95492790949_102025-F.webp"
+      ],
+      "idModelo": 1,
+      "idConcesionaria": 1
+    },
+    {
+      "id": "2",
+      "precio": 18500000,
+      "color": "Rojo",
+      "kilometros": 22000,
+      "disponible": true,
+      "imagen": [
+        "https://i.ibb.co/gLgPMFmx/yaris3.webp",
+        "https://i.ibb.co/XZT8m6jS/yaris4.webp"
+      ],
+      "idModelo": 2,
+      "idConcesionaria": 1
+    },
+    {
+      "id": "3",
+      "precio": 23000000,
+      "color": "Negro",
+      "kilometros": 35000,
+      "disponible": false,
+      "imagen": [
+        "https://i.ibb.co/G3cYjQbz/fiesta1.webp"
+      ],
+      "idModelo": 3,
+      "idConcesionaria": 2
+    },
+    {
+      "id": "5",
+      "precio": 21000000,
+      "color": "Gris",
+      "kilometros": 103000,
+      "disponible": true,
+      "imagen": [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRogYOWvK2msOOUYAg_WdBtehSHd6OAxJ1rag&s"
+      ],
+      "idModelo": 6,
+      "idConcesionaria": 2
+    },
+    {
+      "id": "6",
+      "precio": 7000000,
+      "color": "Azul",
+      "kilometros": 103000,
+      "disponible": true,
+      "imagen": [
+        "https://www.km77.com/images/medium/2/5/4/3/ford-ecosport-2015-azul-kinetic-frontal-lateral.322543.jpg"
+      ],
+      "idModelo": 7,
+      "idConcesionaria": 2
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "1",
+      "nombre": "Juan Pérez",
+      "email": "juan@correo.com",
+      "password": "1234",
+      "telefono": "1111111111",
+      "tipo": "cliente",
+      "favoritos": [
+        3
+      ]
+    },
+    {
+      "id": "2",
+      "nombre": "Admin Norte",
+      "email": "admin@norte.com",
+      "password": "admin123",
+      "telefono": "99999999",
+      "tipo": "admin",
+      "idConcesionaria": 1
+    },
+    {
+      "id": "3",
+      "nombre": "Admin Sur",
+      "email": "admin@sur.com",
+      "password": "admin123",
+      "telefono": "99999999",
+      "tipo": "admin",
+      "idConcesionaria": 2
+    },
+    {
+      "id": "4",
+      "nombre": "eze",
+      "email": "ezequielguerra04@gmail.com",
+      "password": "test123",
+      "telefono": "223503333",
+      "tipo": "cliente",
+      "favoritos": []
+    },
+    {
+      "id": "5",
+      "nombre": "test2",
+      "email": "testeando@gmail.com",
+      "password": "test22",
+      "telefono": "1232456",
+      "tipo": "cliente",
+      "favoritos": []
+    }
+  ],
+  "citas": [
+    {
+      "id": 4,
+      "fecha": "2025-11-30",
+      "hora": "11:30",
+      "motivo": "",
+      "idUsuario": "1",
+      "idAuto": 3,
+      "idConcesionaria": "2"
+    }
+  ]
+}
