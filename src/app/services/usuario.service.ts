@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map, Observable } from "rxjs";
-import { Admin, Cliente } from "../interfaces/usuario.interface";
+import { map, Observable, switchMap } from "rxjs";
+import { Admin, Cliente, Usuario } from "../interfaces/usuario.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +27,21 @@ export class UsuarioService{
     }
 
     agregarUsuario(usuarioNuevo: Cliente | Admin): Observable<Cliente | Admin>{
-        return this.http.post<Cliente | Admin>(this.url, usuarioNuevo);
+        return this.getUsuarios().pipe(
+            map(usuarios => {
+
+                if(this.validadorUsuarioExistente(usuarioNuevo.email, usuarios) == true){
+                    throw new Error('El mail ingresado ya está registrado en el sistema');
+                }
+
+                return usuarioNuevo;
+
+            }),
+
+            switchMap(usuario =>
+                this.http.post<Cliente | Admin>(this.url, usuario)
+            )
+        );
     }
 
     actualizarUsuario(usuarioNuevo: Cliente | Admin): Observable<Cliente | Admin>{
@@ -36,5 +50,11 @@ export class UsuarioService{
 
     eliminarUsuario(id: number): Observable<void>{
         return this.http.delete<void>(`${this.url}/${id}`);
+    }
+
+    validadorUsuarioExistente(mail: string, usuarios: Usuario[]): boolean{
+        return usuarios.some(u =>
+            u.email.trim().toLowerCase() === mail.trim().toLowerCase()
+        );
     }
 }

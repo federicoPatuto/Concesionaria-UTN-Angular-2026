@@ -76,7 +76,11 @@ export class AuthenticationService{
                 this.usuario.set(currentUser);
                 return {resultado: 'exitoso',usuario:currentUser} as ResultadoLogin;
             }),
-            //catchError(()=> of ({ resultado: 'error al registrar' } as unknown as ResultadoLogin))
+            catchError(() =>
+            of({
+                resultado: 'mail_existente'
+            } as ResultadoLogin)
+            )
         );
     }
 

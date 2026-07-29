@@ -191,7 +191,7 @@ export class Detalle implements OnInit{
           alert('Cita agendada con éxito. Puede verla en la sección Mis Citas');
           this.ocultarForm();
         },
-        error: (err) => console.log(err)
+        error: (err) => {alert(err.message)} //Muestra al usuario el error correspondiente, arrojado en CitaService
       })
     }
   }

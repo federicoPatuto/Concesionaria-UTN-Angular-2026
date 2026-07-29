@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, model } from "@angular/core";
 import { Auto } from "../interfaces/auto.interface";
 import { HttpClient } from "@angular/common/http";
 import { forkJoin, map, Observable, switchMap } from "rxjs";
@@ -28,7 +28,7 @@ export class AutoService{
         return this.http.get<Auto[]>(this.urlAutos);
     }
 
-    getAutoById(id: string | number): Observable<Auto> {
+    getAutoById(id: number): Observable<Auto> {
         return this.http.get<Auto>(`${this.urlAutos}/${id}`);
     }
 
@@ -69,9 +69,14 @@ export class AutoService{
     agregarMarca(marcaNueva: string): Observable<Marca>{
         return this.getMarcas().pipe(
           map(marcas => {
+
+            if(this.validarMarcaExistente(marcaNueva, marcas) == true){
+              throw new Error("La marca ingresada ya existe");
+            }
+
             const nuevoId = this.obtenerNuevoIdMarcas(marcas);
             return {
-              nombre: marcaNueva,
+              nombre: this.normalizarTexto(marcaNueva),
               id: nuevoId
             } as Marca;
           }),
@@ -99,7 +104,21 @@ export class AutoService{
     agregarModelo(modeloNuevo: Modelo): Observable<Modelo>{
         return this.getModelos().pipe(
           map(modelos => {
+
+            if(this.validarModeloExistente(modeloNuevo, modelos) == true){
+              throw new Error("El modelo ingresado ya existe");
+            }
+
+            if(this.validarHp(modeloNuevo) == false){
+              throw new Error("Ingrese un valor de HP entre 0 y 3000");
+            }
+
+            //Esta función, a diferencia de las otras, no devuelve valor boolean sino que arroja error en caso de valor inválido, ya que hay más de una posibilidad de valor inválido (a diferencia del resto de validadores).
+            this.validarAnio(modeloNuevo);
+
             const nuevoId = this.obtenerNuevoIdModelos(modelos);
+
+            modeloNuevo.nombre = this.normalizarTexto(modeloNuevo.nombre);
             return {
               ...modeloNuevo,
               id: nuevoId
@@ -221,6 +240,51 @@ export class AutoService{
           return Math.max(...idModelos) + 1;
         }
         return 1;
+      }
+
+      private validarMarcaExistente(nombre: string, marcas: Marca[]): boolean {
+        return marcas.some(m =>
+            m.nombre.trim().toLowerCase() ===
+            nombre.trim().toLowerCase()
+        );
+      }
+
+      private normalizarTexto(nombre: string): string {
+        nombre = nombre.trim().toLowerCase();
+        return nombre.charAt(0).toUpperCase() + nombre.slice(1);
+      }
+
+      private validarModeloExistente(modelo: Modelo, modelos: Modelo[]): boolean {
+        return modelos.some(m =>
+            m.idMarca === modelo.idMarca &&
+            m.nombre.trim().toLowerCase() ===
+            modelo.nombre.trim().toLowerCase() &&
+            m.anio === modelo.anio
+        );
+      }
+
+      private validarHp(modelo: Modelo): boolean {
+        if (modelo.hp <= 0 || modelo.hp >= 3000) {
+            return false;
+        }
+        else{
+          return true;
+        }
+      }
+
+      private validarAnio(modelo: Modelo): void {
+        const anio = Number(modelo.anio);
+        const anioActual = new Date().getFullYear();
+
+        if (isNaN(anio)) {
+            throw new Error("El año ingresado no es válido.");
+        }
+
+        if (anio < 1950 || anio > anioActual + 1) {
+            throw new Error(
+                `El año debe estar entre 1950 y ${anioActual + 1}.`
+            );
+        }
       }
 
 }

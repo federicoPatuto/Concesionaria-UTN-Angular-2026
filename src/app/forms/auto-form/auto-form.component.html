@@ -120,3 +120,13 @@
         </div>
     </div>
 }
+
+<p>Formulario válido: {{ formAuto.valid }}</p>
+
+<pre>{{ formAuto.value | json }}</pre>
+
+<div *ngFor="let control of formAuto.controls | keyvalue">
+  {{ control.key }} -
+  Válido: {{ control.value.valid }} -
+  Errores: {{ control.value.errors | json }}
+</div>

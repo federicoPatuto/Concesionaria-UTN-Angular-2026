@@ -7,6 +7,8 @@ import { Cliente } from '../interfaces/usuario.interface';
 import { CitaCompleta } from '../interfaces/cita-completa.interface';
 import { AutoService } from './auto.service';
 import { UsuarioService } from './usuario.service';
+import { ConfiguracionService } from './configuracion.service';
+import { Configuracion } from '../interfaces/configuracion.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +18,7 @@ export class CitaService {
   private readonly urlCitas = 'http://localhost:3000/citas';
   private readonly autoService = inject(AutoService);
   private readonly usuarioService = inject(UsuarioService);
+  private readonly configuracionService = inject(ConfiguracionService);
   
   constructor(private http: HttpClient){}
 
@@ -38,19 +41,41 @@ export class CitaService {
   //Intentamos suscribirnos al observable retornado por getCitas() y ralizar allí la lógica de generación de id nuevo,
   //pero nos arrojaba error. Encontramos que mediante un pipe y el uso de switchMap nos permite devolver un observable y que funcione
   agregarCita(citaNueva: Cita): Observable<Cita>{
-    return this.getCitas().pipe(
-      map(citas => {
-        const nuevoId = this.obtenerNuevoId(citas);
-        return {
-          ...citaNueva,
-          id: nuevoId
-        } as Cita;
-      }),
-      switchMap(citaConId =>
-        this.http.post<Cita>(this.urlCitas, citaConId)
+    return this.configuracionService.obtenerConfiguracion().pipe(
+
+    switchMap(configuracion =>
+
+        this.getCitas().pipe(
+
+            map(citas => {
+
+                if(this.validadorFechaCita(citaNueva) == false){
+                  throw new Error('No pueden reservarse citas en fechas pasadas.');
+                }
+
+                if(this.validadorHorarioCita(citaNueva, configuracion) == false){
+                  throw new Error('Nuestro horario de atención es de ' + this.configuracionService.configuracion()?.horarioApertura + ' hs. a ' + this.configuracionService.configuracion()?.horarioCierre + ' hs.');
+                }
+
+                if(this.validadorCitaExistente(citaNueva, citas) == true){
+                  throw new Error('Ya existe una cita reservada en este día y horario para este vehículo');
+                }
+
+                return {
+                    ...citaNueva,
+                    id: this.obtenerNuevoId(citas)
+                } as Cita;
+
+            }),
+
+            switchMap(citaConId =>
+                this.http.post<Cita>(this.urlCitas, citaConId)
+          )
+        )
       )
     );
   }
+
 
   modificarCita(citaNueva: Cita): Observable<Cita>{
       return this.http.put<Cita>(`${this.urlCitas}/${citaNueva.id}`, citaNueva);
@@ -137,5 +162,39 @@ export class CitaService {
             )
         );
     }
+
+    validadorCitaExistente(citaNueva: Cita, citas: Cita[]): boolean{
+      return citas.some(c =>
+        c.idAuto === citaNueva.idAuto &&
+        c.fecha === citaNueva.fecha &&
+        c.hora === citaNueva.hora
+      );
+    }
+
+    validadorFechaCita(citaNueva: Cita): boolean{
+      const hoy = new Date();
+      hoy.setHours(0, 0, 0, 0);
+
+      const fechaCita = new Date(citaNueva.fecha);
+      fechaCita.setHours(0, 0, 0, 0);
+
+      if (fechaCita < hoy) {
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+
+    validadorHorarioCita(citaNueva: Cita, configuracion: Configuracion): boolean{
+      if (citaNueva.hora < configuracion.horarioApertura || citaNueva.hora > configuracion.horarioCierre) {
+        return false;
+      }
+      else{
+        return true;
+      }
+    }
+
+    
 
 }

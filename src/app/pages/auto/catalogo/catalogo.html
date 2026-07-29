@@ -1,8 +1,9 @@
 <div class="catalogo-container">
 
 <div class = "filtros">
-  <select class = "filtro_marcas" (change)="busquedaService.actualizarFiltros({ marca: $any($event.target).value })">
-  <option value="">Todas las marcas</option>
+  <select class = "filtro_marcas" [ngModel]="busquedaService.filtros().marca"
+    (ngModelChange)="busquedaService.actualizarFiltros({ marca: $event || null })">
+  <option value="">Todas las Marcas</option>
   @for (marca of this.busquedaService.obtenerMarcasDisponibles(autosConNombres()!); track $index) {
     <option [value]="marca">{{marca}}</option>
   }

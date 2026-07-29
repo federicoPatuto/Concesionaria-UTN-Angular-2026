@@ -1,5 +1,5 @@
 export interface Auto {
-  id: number | string;
+  id: number;
   precio: number;
   color: string;
   kilometros: number;

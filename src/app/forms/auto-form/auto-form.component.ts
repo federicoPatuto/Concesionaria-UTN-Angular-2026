@@ -57,6 +57,10 @@ export class AutoFormComponent implements OnInit{
     idConcesionaria: [null, Validators.required]
   });
 
+    this.formAuto.patchValue({
+    idConcesionaria: this.adminEnLinea()?.idConcesionaria
+  });
+
     if (this.modoEdicion) {
     //Por lógica de negocio, buscamos que solo puedan editarse el precio y la disponibilidad del auto.
     Object.keys(this.formAuto.controls).forEach(campo => {
@@ -95,13 +99,19 @@ export class AutoFormComponent implements OnInit{
 
   protected nombreMarcaNueva = '';
   crearMarca() {
-    const nuevaMarca = this.nombreMarcaNueva;
-    this.autoService.agregarMarca(nuevaMarca).subscribe(marcaNueva => {
+  const nuevaMarca = this.nombreMarcaNueva;
+
+  this.autoService.agregarMarca(nuevaMarca).subscribe({
+    next: marcaNueva => {
       this.marcas.update(list => [...list, marcaNueva]);
       this.formAuto.patchValue({ idMarca: marcaNueva.id });
       this.cerrarModalMarca();
-    });
-  }
+    },
+    error: err => {
+      alert(err.message);
+    }
+  });
+}
 
   //Gestión de agregado de modelo nuevo
   protected mostrarModalModelo = false;
@@ -124,13 +134,21 @@ export class AutoFormComponent implements OnInit{
       idMarca: Number(this.formAuto.get('idMarca')?.value),
     };
 
-    this.autoService.agregarModelo({...modelo, id: 0}).subscribe(modeloCreado => {
-      this.modelos.update(list => [...list, modeloCreado]);
-      this.filtrarModelosPorMarca();
-      this.formAuto.patchValue({ idModelo: modeloCreado.id });
-      this.cerrarModalModelo();
+    this.autoService.agregarModelo({ ...modelo, id: 0 }).subscribe({
+
+      next: (modeloCreado) => {
+        this.modelos.update(list => [...list, modeloCreado]);
+        this.filtrarModelosPorMarca();
+        this.formAuto.patchValue({ idModelo: modeloCreado.id });
+        this.cerrarModalModelo();
+      },
+
+      error: (err) => {
+        alert(err.message);
+      }
+
     });
-  }
+}
 
   
   onSubmit(): void{

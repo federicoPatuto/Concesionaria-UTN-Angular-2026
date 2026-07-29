@@ -23,14 +23,13 @@ newUser: Usuario = {
   constructor(private auth:AuthenticationService, private router: Router){}
 
   singUp(){
-    //Crear en C:\Users\Usuario\Desktop\Concesionaria-UTN-desarrollo\src\app\services\authentication.service.ts el servicio de registro
     this.auth.signUp(this.newUser).subscribe({
       next: (res)=>{
         if(res.resultado==='exitoso'){
           alert("Usuario registrado correctamente");
           this.router.navigate(['/catalogo']);
         }else if (res.resultado === 'mail_existente'){
-          alert("mail ya registrado");
+          alert("El mail ingresado ya está registrado en el sistema");
         }else{
           alert("error al registrarse");
         }
