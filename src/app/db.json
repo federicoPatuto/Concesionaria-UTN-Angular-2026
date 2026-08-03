@@ -228,7 +228,7 @@
       "precio": 20000,
       "color": "Blanco",
       "kilometros": 20000,
-      "disponible": true,
+      "disponible": false,
       "imagen": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Dacia_Duster_III_IMG_8973.jpg/1280px-Dacia_Duster_III_IMG_8973.jpg",
       "idModelo": 13,
       "idConcesionaria": 2
@@ -238,7 +238,7 @@
       "precio": 19999,
       "color": "Verde musgo",
       "kilometros": 9000,
-      "disponible": true,
+      "disponible": false,
       "imagen": "",
       "idModelo": "4",
       "idConcesionaria": 2

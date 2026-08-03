@@ -40,41 +40,60 @@ export class CitaService {
 
   //Intentamos suscribirnos al observable retornado por getCitas() y ralizar allí la lógica de generación de id nuevo,
   //pero nos arrojaba error. Encontramos que mediante un pipe y el uso de switchMap nos permite devolver un observable y que funcione
-  agregarCita(citaNueva: Cita): Observable<Cita>{
-    return this.configuracionService.obtenerConfiguracion().pipe(
+  agregarCita(citaNueva: Cita): Observable<Cita> {
+
+  return this.configuracionService.obtenerConfiguracion().pipe(
 
     switchMap(configuracion =>
 
-        this.getCitas().pipe(
+      this.autoService.getAutoById(citaNueva.idAuto).pipe(
+
+        switchMap(auto => {
+
+          if (!auto.disponible) {
+            throw new Error("El vehículo seleccionado no se encuentra disponible.");
+          }
+
+          return this.getCitas().pipe(
 
             map(citas => {
 
-                if(this.validadorFechaCita(citaNueva) == false){
-                  throw new Error('No pueden reservarse citas en fechas pasadas.');
-                }
+              if (!this.validadorFechaCita(citaNueva)) {
+                throw new Error("No pueden reservarse citas en fechas pasadas.");
+              }
 
-                if(this.validadorHorarioCita(citaNueva, configuracion) == false){
-                  throw new Error('Nuestro horario de atención es de ' + this.configuracionService.configuracion()?.horarioApertura + ' hs. a ' + this.configuracionService.configuracion()?.horarioCierre + ' hs.');
-                }
+              if (!this.validadorHorarioCita(citaNueva, configuracion)) {
+                throw new Error(
+                  `Nuestro horario de atención es de ${configuracion.horarioApertura} hs. a ${configuracion.horarioCierre} hs.`
+                );
+              }
 
-                if(this.validadorCitaExistente(citaNueva, citas) == true){
-                  throw new Error('Ya existe una cita reservada en este día y horario para este vehículo');
-                }
+              if (this.validadorCitaExistente(citaNueva, citas)) {
+                throw new Error("Ya existe una cita reservada en este día y horario para este vehículo.");
+              }
 
-                return {
-                    ...citaNueva,
-                    id: this.obtenerNuevoId(citas)
-                } as Cita;
+              return {
+                ...citaNueva,
+                id: this.obtenerNuevoId(citas)
+              } as Cita;
 
             }),
 
             switchMap(citaConId =>
-                this.http.post<Cita>(this.urlCitas, citaConId)
-          )
-        )
+              this.http.post<Cita>(this.urlCitas, citaConId)
+            )
+
+          );
+
+        })
+
       )
-    );
-  }
+
+    )
+
+  );
+
+}
 
 
   modificarCita(citaNueva: Cita): Observable<Cita>{

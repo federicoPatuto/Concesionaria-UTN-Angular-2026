@@ -48,15 +48,20 @@
   }@else if (autos && autos.length > 0){
     <div class="card">
         @for (auto of autosFiltrados(); track auto.auto.id){
-          <div class="card-image">
-            <img [src]="auto.imagen[0] || 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dreamstime.com%2Fcheerful-illustration-red-cartoon-car-speeding-along-perfect-children-s-books-websites-any-project-needing-fun-image379073327&psig=AOvVaw0UZUVEQ6L_CAN7ljJveCzu&ust=1763710087116000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMDloaaagJEDFQAAAAAdAAAAABAE'" alt="auto.nombreModelo" />
-          </div>
-          <div class="card-content">
-            <h3>{{auto.marca.nombre}} {{auto.modelo.nombre}}</h3>
-            <p class="anio">Año: {{ auto.anio }}</p>
-            <p class="precio">Precio: $ {{ auto.auto.precio }}</p>
-            <button class="detalle-btn" [routerLink]="['/detalle', auto.auto.id]" routerLinkActive="active">Ver Detalle</button>
-          </div>
+            <div class="card-image">
+              @if(!auto.auto.disponible){
+              <div class="badge-no-disponible">
+                  NO DISPONIBLE
+              </div>
+              }
+              <img [src]="auto.imagen[0] || 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dreamstime.com%2Fcheerful-illustration-red-cartoon-car-speeding-along-perfect-children-s-books-websites-any-project-needing-fun-image379073327&psig=AOvVaw0UZUVEQ6L_CAN7ljJveCzu&ust=1763710087116000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCMDloaaagJEDFQAAAAAdAAAAABAE'" alt="auto.nombreModelo" />
+            </div>
+            <div class="card-content" [class.auto-no-disponible]="!auto.auto.disponible">
+              <h3>{{auto.marca.nombre}} {{auto.modelo.nombre}}</h3>
+              <p class="anio">Año: {{ auto.anio }}</p>
+              <p class="precio">Precio: $ {{ auto.auto.precio }}</p>
+              <button class="detalle-btn" [routerLink]="['/detalle', auto.auto.id]" routerLinkActive="active">Ver Detalle</button>
+            </div>
         }
 
     </div>

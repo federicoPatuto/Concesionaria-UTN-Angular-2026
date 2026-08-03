@@ -82,6 +82,7 @@
 .card-image {
   height: 200px;
   overflow: hidden;
+  position: relative;
 }
 
 .card-image img {
@@ -137,4 +138,28 @@
 .detalle-btn:hover {
   background: linear-gradient(90deg, #690ba7, #b987cb);
   transform: scale(1.03);
+}
+
+.auto-no-disponible{
+    opacity: .65;
+    filter: grayscale(35%);
+    transition: .2s;
+}
+
+.badge-no-disponible{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    background: #c62828;
+    color: white;
+
+    padding: 6px 10px;
+
+    font-size: 13px;
+    font-weight: bold;
+
+    border-radius: 6px;
+
+    z-index: 10;
 }

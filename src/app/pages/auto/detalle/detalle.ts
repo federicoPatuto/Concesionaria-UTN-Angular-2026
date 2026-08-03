@@ -170,6 +170,10 @@ export class Detalle implements OnInit{
 
 
   mostrarForm(): void{
+    if (!this.auto()?.auto.disponible) {
+      alert('Este vehículo no se encuentra disponible.');
+      return;
+    }
     if(this.authService.getUsuarioEnLinea()){
       this.formularioVisible.set(true);
     }

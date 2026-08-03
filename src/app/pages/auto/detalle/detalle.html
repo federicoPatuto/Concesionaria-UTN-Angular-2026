@@ -27,6 +27,11 @@
       </div>
 
       <div class="info-auto">
+        @if(!detalleAutoComputed()?.auto?.disponible){
+        <div class="mensaje-no-disponible">
+            Este vehículo no se encuentra disponible actualmente.
+        </div>
+        }
         <h2>{{ detalleAuto.marca.nombre }} {{ detalleAuto.modelo.nombre }} ({{ detalleAuto.anio }})</h2>
 
         <p><strong>Precio:</strong> ${{ detalleAuto.auto.precio }}</p>
@@ -52,7 +57,7 @@
               <button class="favoritos" (click)="agregarFavorito(detalleAuto.auto.id)">Agregar a Favoritos</button>
             }
 
-            <button class="cita" (click)="mostrarForm()">Solicitar Cita</button>
+            <button class="cita" (click)="mostrarForm()" [disabled]="!detalleAutoComputed()?.auto?.disponible">Solicitar Cita</button>
             @if(formularioVisible()){
               <div class="formulario-cita">
                 <form [formGroup]="formCita" (ngSubmit)="onSubmit()">

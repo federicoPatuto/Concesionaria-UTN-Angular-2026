@@ -282,3 +282,18 @@ button[type="button"] {
   from { transform: scale(0.85); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+.mensaje-no-disponible{
+    margin: 15px 0;
+
+    padding: 12px;
+
+    background: #ffe5e5;
+    color: #b00020;
+
+    border-left: 5px solid #b00020;
+
+    border-radius: 6px;
+
+    font-weight: bold;
+}
