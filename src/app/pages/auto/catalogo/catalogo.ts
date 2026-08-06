@@ -9,6 +9,7 @@ import { AutoCompleto } from '../../../interfaces/auto-completo.interface';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { Admin, Cliente } from '../../../interfaces/usuario.interface';
+import { ComparadorService } from '../../../services/comparador.service';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class Catalogo{
   private readonly router = inject(Router);
   protected readonly busquedaService = inject(BusquedaService);
   private readonly authService = inject(AuthenticationService);
+  protected readonly comparadorService = inject(ComparadorService);
 
   protected readonly usuarioEnLinea = computed(() => {
       const usuarioEnLinea: Cliente | Admin | null = this.authService.getUsuarioEnLinea();
@@ -55,6 +57,16 @@ export class Catalogo{
       }
       return resultadosFiltrados;
   }); 
+
+  irAComparador(): void {
+  if (this.comparadorService.puedeComparar()) {
+    this.router.navigate(['/comparador']);
+  }
+}
+
+limpiarComparacion(): void {
+  this.comparadorService.limpiar();
+}
 
 }
 

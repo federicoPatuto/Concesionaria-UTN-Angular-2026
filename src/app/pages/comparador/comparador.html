@@ -1,0 +1,140 @@
+<h1>Comparador de Vehículos</h1>
+
+@if(autosComparados().length < 2){
+
+    <h3>Seleccione al menos dos vehículos para compararlos.</h3>
+
+}
+
+@else {
+
+<table class="tabla-comparador">
+
+    <tr>
+        <th>Característica</th>
+
+        @for(auto of autosComparados(); track auto.auto.id){
+
+            <th>
+
+                <img
+                    [src]="auto.imagen[0]"
+                    width="180">
+
+                <br>
+
+                {{auto.marca.nombre}}
+                {{auto.modelo.nombre}}
+
+
+            </th>
+
+        }
+
+    </tr>
+
+    <tr>
+
+        <td>Precio</td>
+
+        @for(auto of autosComparados(); track auto.auto.id){
+
+            <td>${{auto.auto.precio}}</td>
+
+        }
+
+    </tr>
+
+    <tr>
+
+        <td>Año</td>
+
+        @for(auto of autosComparados(); track auto.auto.id){
+
+            <td>{{auto.modelo.anio}}</td>
+
+        }
+
+    </tr>
+
+    <tr>
+
+        <td>HP</td>
+
+        @for(auto of autosComparados(); track auto.auto.id){
+
+            <td>{{auto.modelo.hp}}</td>
+
+        }
+
+    </tr>
+
+    <tr>
+
+        <td>Combustible</td>
+
+        @for(auto of autosComparados(); track auto.auto.id){
+
+            <td>{{auto.modelo.combustible}}</td>
+
+        }
+
+    </tr>
+
+    <tr>
+
+        <td>Transmisión</td>
+
+        @for(auto of autosComparados(); track auto.auto.id){
+
+            <td>{{auto.modelo.transmision}}</td>
+
+        }
+
+    </tr>
+
+    <tr>
+
+        <td>Kilómetros</td>
+
+        @for(auto of autosComparados(); track auto.auto.id){
+
+            <td>{{auto.auto.kilometros}}</td>
+
+        }
+
+    </tr>
+
+    <tr>
+
+        <td>Color</td>
+
+        @for(auto of autosComparados(); track auto.auto.id){
+
+            <td>{{auto.auto.color}}</td>
+
+        }
+
+    </tr>
+
+    <tr>
+
+        <td>Concesionaria</td>
+
+        @for(auto of autosComparados(); track auto.auto.id){
+
+            <td>{{auto.concesionaria.nombre}}</td>
+
+        }
+
+    </tr>
+
+</table>
+
+<br>
+
+<button (click)="volver()">
+    Volver al catálogo
+</button>
+
+}

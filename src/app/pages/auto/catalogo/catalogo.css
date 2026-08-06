@@ -119,7 +119,6 @@
   font-weight: 400;
 }
 
-/* Botón de detalle */
 .detalle-btn {
   width: 100%;
   margin-top: 15px;
@@ -134,11 +133,49 @@
   transition: background .3s, transform .2s;
 }
 
-/* Efecto del botón */
+
 .detalle-btn:hover {
   background: linear-gradient(90deg, #690ba7, #b987cb);
   transform: scale(1.03);
 }
+
+
+.comparar-btn{
+
+    width: 100%;
+
+    margin-top: 8px;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    border: 1px solid #d1d5db;
+
+    background: #ffffff;
+
+    color: #374151;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all .2s ease;
+
+}
+
+.comparar-btn:hover{
+
+    background: #f3f4f6;
+
+    border-color: #9ca3af;
+
+}
+
+
+
+
+
 
 .auto-no-disponible{
     opacity: .65;
@@ -162,4 +199,86 @@
     border-radius: 6px;
 
     z-index: 10;
+}
+
+.comparador-flotante{
+
+    position: fixed;
+
+    bottom: 25px;
+
+    right: 25px;
+
+    display:flex;
+
+    gap:12px;
+
+    align-items:center;
+
+    background:white;
+
+    padding:14px 18px;
+
+    border-radius:14px;
+
+    box-shadow:0 8px 24px rgba(0,0,0,.18);
+
+    z-index:1000;
+
+    animation: aparecerComparador .25s ease;
+
+}
+
+.btn-comparar{
+
+    padding:10px 18px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+.btn-comparar:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+}
+
+.btn-limpiar{
+
+    background:none;
+
+    border:none;
+
+    color:#777;
+
+    cursor:pointer;
+
+}
+
+@keyframes aparecerComparador{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
 }
