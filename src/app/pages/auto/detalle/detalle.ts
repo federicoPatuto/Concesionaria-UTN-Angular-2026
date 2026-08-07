@@ -10,10 +10,12 @@ import { AutoFormComponent } from '../../../forms/auto-form/auto-form.component'
 import { Auto } from '../../../interfaces/auto.interface';
 import { AutoCompleto } from '../../../interfaces/auto-completo.interface';
 import { Financiacion } from '../financiacion/financiacion';
+import { RecomendacionService } from '../../../services/recomendacion';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-detalle',
-  imports: [ReactiveFormsModule, AutoFormComponent, Financiacion],
+  imports: [ReactiveFormsModule, AutoFormComponent, Financiacion, RouterLink],
   templateUrl: './detalle.html',
   styleUrl: './detalle.css'
 })
@@ -27,13 +29,12 @@ export class Detalle implements OnInit{
   protected readonly favoritosService = inject(FavoritosService);
   private readonly formBuilder = inject(FormBuilder);
   private readonly citaService = inject(CitaService);
-
-  //Obtención de id
-  private readonly id = Number(this.route.snapshot.paramMap.get('id'));
+  private readonly recomendacionService = inject(RecomendacionService);
 
   //Signals
   protected auto = signal<AutoCompleto | undefined>(undefined);
   protected detalleAutoComputed = computed(() => this.auto());
+  protected recomendaciones = signal<AutoCompleto[]>([]);
 
   protected readonly isLoading = computed(() => {
     return this.auto() === undefined;
@@ -142,31 +143,42 @@ export class Detalle implements OnInit{
 
   ngOnInit(): void {
     this.formCita = this.formBuilder.group({
-      id: [null], //El id se genera al momento de agregar al json, ver función agregarCita()
+      id: [null],
       fecha: ['', Validators.required],
       hora: ['', Validators.required],
       motivo: [''],
       idUsuario: [this.authService.getUsuarioEnLinea()?.id, Validators.required],
-      idAuto: [this.id, Validators.required],
+      idAuto: [null, Validators.required],
       idConcesionaria: [null, Validators.required]
     });
 
-    this.autoService.getAutoCompletoById(this.id).subscribe(auto => {
-      this.auto.set(auto);
+    this.route.paramMap.subscribe(params => {
+
+      const id = Number(params.get('id'));
+
+      this.formCita.patchValue({
+        idAuto: id
+      });
+
+      this.autoService.getAutoCompletoById(id).subscribe(auto => {
+
+        this.auto.set(auto);
+
+        this.formCita.patchValue({
+          idConcesionaria: auto.concesionaria.id
+        });
+
+        this.recomendacionService
+          .obtenerRecomendaciones(auto)
+          .subscribe(recomendaciones => {
+            this.recomendaciones.set(recomendaciones);
+          });
+
+      });
+
     });
   }
 
-    /*Como el formulario se carga antes que las señales, tuvimos el problema de que el campo idConcesionaria se llenaba con valor undefined.
-  Para eso encontramos la función effect, que se ejecuta cada vez que cambia una o más de las señales que tiene en el cuerpo.
-  Asi, al cargarse el
-  */
-    protected actualizarCampoConcesionaria = effect(() => {
-      if (this.auto) {
-        this.formCita.patchValue({
-          idConcesionaria: this.auto()?.concesionaria.id
-        });
-      }
-    });
 
 
   mostrarForm(): void{

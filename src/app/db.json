@@ -117,7 +117,7 @@
       "idMarca": 5
     },
     {
-      "id": 11,
+      "id": "11",
       "nombre": "Yari",
       "anio": 2020,
       "hp": 200,
@@ -126,7 +126,7 @@
       "idMarca": 1
     },
     {
-      "id": 12,
+      "id": "12",
       "nombre": "Yaris",
       "anio": 2024,
       "hp": 200,
@@ -135,7 +135,7 @@
       "idMarca": 1
     },
     {
-      "id": 13,
+      "id": "13",
       "nombre": "Duster",
       "anio": 2000,
       "hp": 80,
@@ -162,7 +162,7 @@
   ],
   "autos": [
     {
-      "id": 1,
+      "id": "1",
       "precio": 22000000,
       "color": "Blanco",
       "kilometros": 15000,
@@ -175,7 +175,7 @@
       "idConcesionaria": 1
     },
     {
-      "id": 2,
+      "id": "2",
       "precio": 18500000,
       "color": "Rojo",
       "kilometros": 22000,
@@ -188,7 +188,7 @@
       "idConcesionaria": 1
     },
     {
-      "id": 3,
+      "id": "3",
       "precio": 10,
       "color": "Negro",
       "kilometros": 35000,
@@ -200,7 +200,7 @@
       "idConcesionaria": 2
     },
     {
-      "id": 5,
+      "id": "5",
       "precio": 21000000,
       "color": "Gris",
       "kilometros": 103000,
@@ -212,7 +212,7 @@
       "idConcesionaria": 2
     },
     {
-      "id": 6,
+      "id": "6",
       "precio": 7000000,
       "color": "Azul",
       "kilometros": 103000,
@@ -224,7 +224,7 @@
       "idConcesionaria": 2
     },
     {
-      "id": 7,
+      "id": "7",
       "precio": 20000,
       "color": "Blanco",
       "kilometros": 20000,
@@ -234,7 +234,7 @@
       "idConcesionaria": 2
     },
     {
-      "id": 8,
+      "id": "8",
       "precio": 19999,
       "color": "Verde musgo",
       "kilometros": 9000,
@@ -343,6 +343,15 @@
       "id": "8",
       "fecha": "2026-12-10",
       "hora": "18:00",
+      "motivo": "",
+      "idUsuario": "1",
+      "idAuto": 6,
+      "idConcesionaria": "2"
+    },
+    {
+      "id": 9,
+      "fecha": "2026-12-14",
+      "hora": "10:00",
       "motivo": "",
       "idUsuario": "1",
       "idAuto": 6,

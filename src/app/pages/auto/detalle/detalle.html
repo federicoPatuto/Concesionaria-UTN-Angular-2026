@@ -114,3 +114,40 @@
     </app-financiacion>
   </div>
 }
+
+@if(recomendaciones().length){
+
+<h2>También podría interesarte</h2>
+
+<div class="recomendaciones">
+
+    @for(auto of recomendaciones(); track auto.auto.id){
+
+        <div class="recomendacion-card">
+
+            <img
+                [src]="auto.imagen[0]"
+                [alt]="auto.modelo.nombre">
+
+            <h3>
+
+                {{auto.marca.nombre}}
+                {{auto.modelo.nombre}}
+
+            </h3>
+
+            <p>
+
+                $ {{auto.auto.precio}}
+
+            </p>
+
+            <button [routerLink]="['/detalle',auto.auto.id]">Ver detalle</button>
+
+        </div>
+
+    }
+
+</div>
+
+}
