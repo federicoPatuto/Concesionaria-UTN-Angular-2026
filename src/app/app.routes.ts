@@ -12,6 +12,7 @@ import { logInGuard } from './guards/log-in-guard';
 import { autoConcesionariaAdminGuard } from './guards/auto-concesionaria-admin-guard';
 import { adminLogueadoGuard } from './guards/admin-logueado-guard';
 import { Comparador } from './pages/comparador/comparador';
+import { Contacto } from './pages/contacto/contacto';
 
 export const routes: Routes = [
     {path:"",redirectTo: 'catalogo',pathMatch:'full'},
@@ -23,5 +24,6 @@ export const routes: Routes = [
     {path:"citas", component: CitaComponent, canActivate: [logInGuard]},
     {path:"agregar-auto", component: AutoFormComponent, canActivate: [adminLogueadoGuard]},
     {path: 'comparador', component: Comparador},
+    {path: 'contacto', component: Contacto},
     {path: '**', redirectTo: 'catalogo'}
 ];

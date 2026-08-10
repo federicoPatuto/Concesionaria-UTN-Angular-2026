@@ -150,14 +150,20 @@
       "nombre": "Concesionaria Norte",
       "direccion": "Av. Siempre Viva 123",
       "email": "norte@autos.com",
-      "telefono": "1122334455"
+      "telefono": "1122334455",
+      "whatsapp": "1122334455",
+      "horarioApertura": "09:00",
+      "horarioCierre": "18:00"
     },
     {
       "id": "2",
       "nombre": "Concesionaria Sur",
       "direccion": "Calle Falsa 456",
       "email": "sur@autos.com",
-      "telefono": "1199887766"
+      "telefono": "1199887766",
+      "whatsapp": "1199887766",
+      "horarioApertura": "08:00",
+      "horarioCierre": "18:00"
     }
   ],
   "autos": [
@@ -356,13 +362,15 @@
       "idUsuario": "1",
       "idAuto": 6,
       "idConcesionaria": "2"
-    }
-  ],
-  "configuracion": [
+    },
     {
-      "id": "1",
-      "horarioApertura": "09:00",
-      "horarioCierre": "18:00"
+      "id": 10,
+      "fecha": "2026-08-11",
+      "hora": "08:00",
+      "motivo": "",
+      "idUsuario": "1",
+      "idAuto": 6,
+      "idConcesionaria": "2"
     }
   ]
 }

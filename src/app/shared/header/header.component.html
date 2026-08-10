@@ -18,8 +18,9 @@
             <a class="login" routerLink="/login" routerLinkActive="active">Iniciar Sesión</a>
             <a class="sign-up" routerLink="/sign-up" routerLinkActive="active">Registrarse</a>
         }
-    @if (mostrarBuscador()){
-        <input type="text" (input)="buscarAuto($event)" placeholder="Busca un auto...">
-    }
+        @if (mostrarBuscador()){
+            <input type="text" (input)="buscarAuto($event)" placeholder="Busca un auto...">
+        }
+        <a routerLink="/contacto">Contacto</a>
     </nav>
 </header>

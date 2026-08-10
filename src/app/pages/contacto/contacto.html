@@ -1,0 +1,57 @@
+<div class="contacto-container">
+
+    <h1>Contacto</h1>
+
+    <p class="subtitulo">
+        Comunicate con cualquiera de nuestras sucursales.
+    </p>
+
+    <div class="grid">
+
+        @for(concesionaria of concesionarias(); track concesionaria.id){
+
+            <div class="card">
+
+                <h2>{{concesionaria.nombre}}</h2>
+
+                <p>
+                    <strong>Dirección:</strong>
+                    {{concesionaria.direccion}}
+                </p>
+
+                <p>
+                    <strong>Teléfono:</strong>
+                    {{concesionaria.telefono}}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    {{concesionaria.email}}
+                </p>
+
+                <p>
+                    <strong>Horario:</strong>
+                    Lunes a Viernes de 9:00 a 18:00
+                </p>
+
+                <a
+                    class="btn-whatsapp"
+                    target="_blank"
+                    [href]="'https://wa.me/' + concesionaria.whatsapp + '?text=Hola,%20me%20gustaría%20recibir%20información%20sobre%20los%20vehículos.'">
+                    WhatsApp
+                </a>
+
+                <a
+                    class="btn-mapa"
+                    target="_blank"
+                    [href]="obtenerUrlMapa(concesionaria.direccion)">
+                    📍Cómo llegar
+                </a>
+
+            </div>
+
+        }
+
+    </div>
+
+</div>

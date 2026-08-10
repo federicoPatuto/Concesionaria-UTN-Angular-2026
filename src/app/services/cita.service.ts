@@ -7,8 +7,8 @@ import { Cliente } from '../interfaces/usuario.interface';
 import { CitaCompleta } from '../interfaces/cita-completa.interface';
 import { AutoService } from './auto.service';
 import { UsuarioService } from './usuario.service';
-import { ConfiguracionService } from './configuracion.service';
-import { Configuracion } from '../interfaces/configuracion.interface';
+import { ConcesionariaService } from './concesionaria.service';
+import { Concesionaria } from '../interfaces/concesionaria.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class CitaService {
   private readonly urlCitas = 'http://localhost:3000/citas';
   private readonly autoService = inject(AutoService);
   private readonly usuarioService = inject(UsuarioService);
-  private readonly configuracionService = inject(ConfiguracionService);
+  private readonly concesionariaService = inject(ConcesionariaService);
   
   constructor(private http: HttpClient){}
 
@@ -42,9 +42,9 @@ export class CitaService {
   //pero nos arrojaba error. Encontramos que mediante un pipe y el uso de switchMap nos permite devolver un observable y que funcione
   agregarCita(citaNueva: Cita): Observable<Cita> {
 
-  return this.configuracionService.obtenerConfiguracion().pipe(
+  return this.concesionariaService.getConcesionariaById(citaNueva.idConcesionaria).pipe(
 
-    switchMap(configuracion =>
+    switchMap(concesionaria =>
 
       this.autoService.getAutoById(citaNueva.idAuto).pipe(
 
@@ -62,9 +62,9 @@ export class CitaService {
                 throw new Error("No pueden reservarse citas en fechas pasadas.");
               }
 
-              if (!this.validadorHorarioCita(citaNueva, configuracion)) {
+              if (!this.validadorHorarioCita(citaNueva, concesionaria)) {
                 throw new Error(
-                  `Nuestro horario de atención es de ${configuracion.horarioApertura} hs. a ${configuracion.horarioCierre} hs.`
+                  `Nuestro horario de atención es de ${concesionaria.horarioApertura} hs. a ${concesionaria.horarioCierre} hs.`
                 );
               }
 
@@ -205,8 +205,8 @@ export class CitaService {
       }
     }
 
-    validadorHorarioCita(citaNueva: Cita, configuracion: Configuracion): boolean{
-      if (citaNueva.hora < configuracion.horarioApertura || citaNueva.hora > configuracion.horarioCierre) {
+    validadorHorarioCita(citaNueva: Cita, concesionaria: Concesionaria): boolean{
+      if (citaNueva.hora < concesionaria.horarioApertura || citaNueva.hora > concesionaria.horarioCierre) {
         return false;
       }
       else{

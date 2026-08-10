@@ -6,6 +6,7 @@ import { AutoCompleto } from "../interfaces/auto-completo.interface";
 import { Marca } from "../interfaces/marca.interface";
 import { Modelo } from "../interfaces/modelo.interface";
 import { Concesionaria } from "../interfaces/concesionaria.interface";
+import { ConcesionariaService } from './concesionaria.service';
 
 
 @Injectable({
@@ -17,10 +18,9 @@ export class AutoService{
     private urlAutos = 'http://localhost:3000/autos';
     private urlMarcas = 'http://localhost:3000/marcas';
     private urlModelos = 'http://localhost:3000/modelos';
-    private urlConcesionarias = 'http://localhost:3000/concesionarias';
 
 
-    constructor(private http: HttpClient){}
+    constructor(private http: HttpClient, private concesionariaService: ConcesionariaService){}
 
     //CRUD Autos
 
@@ -135,25 +135,6 @@ export class AutoService{
     }
 
 
-    //CRU Concesionarias (Sin delete)
-
-    getConcesionarias(): Observable<Concesionaria[]>{
-        return this.http.get<Concesionaria[]>(this.urlConcesionarias);
-    }
-
-    getConcesionariaById(idConcesionaria: string | number): Observable<Concesionaria> {
-        return this.http.get<Concesionaria>(`${this.urlConcesionarias}/${idConcesionaria}`);
-    }
-
-    agregarConcesionaria(concesionariaNueva: Concesionaria): Observable<Concesionaria>{
-        return this.http.post<Concesionaria>(this.urlConcesionarias, concesionariaNueva);
-    }
-
-    modificarConcesionaria(concesionariaNueva: Concesionaria): Observable<Concesionaria>{
-        return this.http.put<Concesionaria>(`${this.urlConcesionarias}/${concesionariaNueva.id}`, concesionariaNueva);
-    }
-
-
     //Mapeo a AutoCompleto
 
     private mapearAutoCompleto(auto: Auto, modelos: Modelo[], marcas: Marca[], concesionarias: Concesionaria[]): AutoCompleto {
@@ -189,7 +170,7 @@ export class AutoService{
             autos: this.getAutos(),
             modelos: this.getModelos(),
             marcas: this.getMarcas(),
-            concesionarias: this.getConcesionarias()
+            concesionarias: this.concesionariaService.getConcesionarias()
         }).pipe(
             map(({ autos, modelos, marcas, concesionarias }) =>
             autos.map(auto =>
@@ -204,7 +185,7 @@ export class AutoService{
             auto: this.getAutoById(id!),
             modelos: this.getModelos(),
             marcas: this.getMarcas(),
-            concesionarias: this.getConcesionarias()
+            concesionarias: this.concesionariaService.getConcesionarias()
         }).pipe(
             map(({ auto, modelos, marcas, concesionarias }) =>
             this.mapearAutoCompleto(auto, modelos, marcas, concesionarias)

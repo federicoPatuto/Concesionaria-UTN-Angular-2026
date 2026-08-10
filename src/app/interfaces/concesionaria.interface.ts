@@ -4,4 +4,7 @@ export interface Concesionaria {
   direccion: string;
   email: string;
   telefono: string;
+  whatsapp: string;
+  horarioApertura: string;
+  horarioCierre: string;
 }
