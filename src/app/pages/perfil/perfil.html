@@ -1,0 +1,121 @@
+@if (usuario(); as usuario) {
+
+<div class="perfil-container">
+
+    <div class="foto">
+
+        <img [src]="fotoSeleccionada || usuario.foto || avatarDefault">
+
+        <input class = "btn-archivo" type="file" accept="image/*" (change)="onFotoSeleccionada($event)">
+
+    </div>
+
+    <div class="datos">
+
+        <form [formGroup]="formPerfil">
+
+            <div class="campo">
+                <label>Nombre</label>
+                <input
+                    type="text"
+                    formControlName="nombre">
+            </div>
+
+            <div class="campo">
+                <label>Teléfono</label>
+                <input
+                    type="text"
+                    formControlName="telefono">
+            </div>
+
+        </form>
+
+
+        <div class="campo">
+            <label>Email</label>
+            <input
+                type="email"
+                [value]="usuario.email"
+                readonly>
+        </div>
+
+        <div class="campo">
+            <label>Rol</label>
+            <input
+                type="text"
+                [value]="usuario.tipo"
+                readonly>
+        </div>
+
+        <button
+            class="btn-guardar"
+            (click)="guardarCambios()">
+            Guardar cambios
+        </button>
+
+        <button
+            type="button"
+            class="btn-password"
+            (click)="formularioContraseniaVisible()">
+
+            {{ mostrarCambioContrasenia() ? 'Cancelar' : 'Cambiar contraseña' }}
+
+        </button>
+
+        @if (mostrarCambioContrasenia()) {
+
+            <form
+                class="form-password"
+                [formGroup]="formContrasenia"
+                (ngSubmit)="cambiarPassword()">
+
+                <div class="campo">
+                    <label>Contraseña actual</label>
+
+                    <input
+                        type="password"
+                        formControlName="passwordActual">
+                </div>
+
+                <div class="campo">
+                    <label>Nueva contraseña</label>
+
+                    <input
+                        type="password"
+                        formControlName="passwordNueva">
+
+                    @if (
+                        formContrasenia.get('passwordNueva')?.touched &&
+                        formContrasenia.get('passwordNueva')?.hasError('minlength')
+                    ) {
+                        <small class="error">
+                            La contraseña debe tener al menos 8 caracteres.
+                        </small>
+                    }
+                </div>
+
+                <div class="campo">
+                    <label>Confirmar nueva contraseña</label>
+
+                    <input
+                        type="password"
+                        formControlName="confirmacion">
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn-confirmar-password">
+
+                    Confirmar cambio
+
+                </button>
+
+            </form>
+
+        }
+
+    </div>
+
+</div>
+
+}

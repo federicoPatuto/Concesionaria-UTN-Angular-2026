@@ -4,6 +4,7 @@ export interface Usuario {
   email: string;
   password: string;
   telefono: string;
+  foto: string;
   tipo: 'cliente' | 'admin';
 }
 

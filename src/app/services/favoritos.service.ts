@@ -54,7 +54,8 @@ export class FavoritosService {
           password: this.clienteEnLinea()!.password,
           telefono: this.clienteEnLinea()!.telefono,
           tipo: 'cliente',
-          favoritos: nuevosFavoritos
+          favoritos: nuevosFavoritos,
+          foto: this.clienteEnLinea()!.foto
         }
         this.usuarioService.actualizarUsuario(clienteModificado).subscribe({
           next: (usuarioModificado) => {

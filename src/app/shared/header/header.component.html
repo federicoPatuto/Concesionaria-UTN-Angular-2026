@@ -2,6 +2,7 @@
     <nav>
         <a routerLink="/catalogo" routerLinkActive="active">Catálogo</a>
         @if(auth.getUsuarioEnLinea() != null){
+            <a class="perfil" routerLink="/perfil" routerLinkActive="active">Mi Perfil</a>
             <button class="logout" (click)="auth.logout()">
                 Cerrar sesión
             </button>

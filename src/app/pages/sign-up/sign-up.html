@@ -1,19 +1,75 @@
-<div class="signup-container">
-  <h2>Crear cuenta</h2>
-  <form (ngSubmit)="singUp()" #form="ngForm">
-    <label>Nombre</label>
-    <input type="text" [(ngModel)]="newUser.nombre" name="nombre" required />
+<div class="signup-page">
 
-    <label>Email</label>
-    <input type="email" [(ngModel)]="newUser.email" name="email" required />
+  <div class="signup-container">
 
-    <label>Contraseña</label>
-    <input type="password" [(ngModel)]="newUser.password" name="contraseña" required />
+    <div class="foto-registro">
 
-    <label>Teléfono</label>
-    <input type="text" [(ngModel)]="newUser.telefono" name="telefono" required />
+      <img [src]="newUser.foto || avatarDefault" >
 
-    <button type="submit">Registrarse</button>
-  </form>
+      <label class="btn-foto">
+        Elegir foto
+
+        <input
+          type="file"
+          accept="image/*"
+          (change)="onFotoSeleccionada($event)">
+      </label>
+
+    </div>
+
+    <div class="datos-registro">
+
+      <h2>Crear cuenta</h2>
+
+      <form (ngSubmit)="singUp()" #form="ngForm">
+
+        <div class="campo">
+          <label>Nombre</label>
+          <input
+            type="text"
+            [(ngModel)]="newUser.nombre"
+            name="nombre"
+            required>
+        </div>
+
+        <div class="campo">
+          <label>Email</label>
+          <input
+            type="email"
+            [(ngModel)]="newUser.email"
+            name="email"
+            required>
+        </div>
+
+        <div class="campo">
+          <label>Teléfono</label>
+          <input
+            type="text"
+            [(ngModel)]="newUser.telefono"
+            name="telefono"
+            required>
+        </div>
+
+        <div class="campo">
+          <label>Contraseña</label>
+          <input
+            type="password"
+            [(ngModel)]="newUser.password"
+            name="contraseña"
+            required>
+        </div>
+
+        <button
+          class="btn-registrarse"
+          type="submit"
+          [disabled]="form.invalid">
+          Registrarse
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
 </div>
-
