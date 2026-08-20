@@ -34,6 +34,14 @@
                     Lunes a Viernes de 9:00 a 18:00
                 </p>
 
+                <div class="mapa">
+    <iframe
+        [src]="obtenerMapa(concesionaria.direccion)"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</div>
+
                 <a
                     class="btn-whatsapp"
                     target="_blank"

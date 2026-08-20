@@ -10,7 +10,7 @@ import { AutoFormComponent } from '../../../forms/auto-form/auto-form.component'
 import { Auto } from '../../../interfaces/auto.interface';
 import { AutoCompleto } from '../../../interfaces/auto-completo.interface';
 import { Financiacion } from '../financiacion/financiacion';
-import { RecomendacionService } from '../../../services/recomendacion';
+import { RecomendacionService } from '../../../services/recomendacion.service';
 import { RouterLink } from '@angular/router';
 
 @Component({

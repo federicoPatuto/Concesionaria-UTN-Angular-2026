@@ -1,18 +1,53 @@
-<div class="login-container">
-    <h2>Iniciar Sesión</h2>
-    <form (ngSubmit)="login()">
-        <input type="email" placeholder="Email" [(ngModel)]="loginData.email" name="email" required>
-        <input type="password" placeholder="Password" [(ngModel)]="loginData.password" name="password" required>
-        
-        <button type="submit">Ingresar</button>
+<div class="login-page">
 
-        @if(errorMessage){
-            <div>{{errorMessage}}</div>
-        }
-        
+  <div class="login-container">
+
+    <h2>Iniciar sesión</h2>
+
+    <form (ngSubmit)="login()" #form="ngForm">
+
+      <div class="campo">
+        <label>Email</label>
+        <input
+          type="email"
+          [(ngModel)]="loginData.email"
+          name="email"
+          required>
+      </div>
+
+      <div class="campo">
+        <label>Contraseña</label>
+        <input
+          type="password"
+          [(ngModel)]="loginData.password"
+          name="password"
+          required>
+      </div>
+
+      @if(errorMessage){
+        <div class="error-login">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <button
+        class="btn-ingresar"
+        type="submit"
+        [disabled]="form.invalid">
+
+        Ingresar
+
+      </button>
+
     </form>
-    <p> ¿Usuario nuevo?
-        <a routerLink="/sign-up" routerLinkActive="active">Registrarse</a>
-    </p>
-</div>
 
+    <p class="registro">
+      ¿Usuario nuevo?
+      <a routerLink="/sign-up" routerLinkActive="active">
+        Registrarse
+      </a>
+    </p>
+
+  </div>
+
+</div>

@@ -6,8 +6,7 @@ import { Injectable, computed, signal, effect } from '@angular/core';
 export class ComparadorService {
 
 
-  private readonly idsSeleccionados = signal<number[]>(
-    JSON.parse(localStorage.getItem('comparador') ?? '[]'));
+  private readonly idsSeleccionados = signal<number[]>(JSON.parse(localStorage.getItem('comparador') ?? '[]'));
 
 
   readonly ids = this.idsSeleccionados.asReadonly();

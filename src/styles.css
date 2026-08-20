@@ -12,3 +12,7 @@ app-root {
     display: flex;
     flex-direction: column;
 }
+
+* {
+  font-family: 'Montserrat', sans-serif !important;
+}

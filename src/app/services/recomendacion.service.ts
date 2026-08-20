@@ -21,19 +21,11 @@ export class RecomendacionService {
 
         const usuario = this.authService.getUsuarioEnLinea() as Cliente | null;
 
-        let recomendaciones = this.recomendarPorMarca(
-          autoActual,
-          autos,
-          usuario
-        );
+        let recomendaciones = this.recomendarPorMarca(autoActual, autos, usuario);
 
         if(recomendaciones.length < 3){
 
-          const similaresPrecio = this.recomendarPorPrecio(
-            autoActual,
-            autos,
-            recomendaciones
-          );
+          const similaresPrecio = this.recomendarPorPrecio(autoActual, autos, recomendaciones);
 
           recomendaciones = [
             ...recomendaciones,
@@ -49,9 +41,7 @@ export class RecomendacionService {
 
   }
 
-  private recomendarPorMarca(
-    autoActual: AutoCompleto,
-    autos: AutoCompleto[],
+  private recomendarPorMarca(autoActual: AutoCompleto, autos: AutoCompleto[],
     usuario: Cliente | null
   ): AutoCompleto[]{
 
@@ -85,11 +75,7 @@ export class RecomendacionService {
 
     return autos.filter(a =>
 
-      Number(a.auto.id) !== Number(autoActual.auto.id)
-
-      &&
-
-      Number(a.marca.id) === Number(marcaBuscada)
+      Number(a.auto.id) !== Number(autoActual.auto.id) && Number(a.marca.id) === Number(marcaBuscada)
 
     );
 
