@@ -10,11 +10,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { Admin, Cliente } from '../../../interfaces/usuario.interface';
 import { ComparadorService } from '../../../services/comparador.service';
+import { CurrencyPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-catalogo',
-  imports: [FormsModule, RouterLink, RouterLinkActive],
+  imports: [FormsModule, RouterLink, RouterLinkActive, CurrencyPipe],
   templateUrl: './catalogo.html',
   styleUrl: './catalogo.css'
 })

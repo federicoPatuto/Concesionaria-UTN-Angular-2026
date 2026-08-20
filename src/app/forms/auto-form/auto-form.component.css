@@ -1,149 +1,409 @@
-* {
-  font-family: "Poppins", sans-serif;
-}
-/* ================================
-   FORMULARIO PRINCIPAL
-   ================================ */
+.auto-form-card {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
 
-form {
-  max-width: 550px;
-  margin: 30px auto;
-  padding: 25px;
+  margin: 0;
+  padding: 30px;
+
   background: #ffffff;
+
+  border: 1px solid #e1e1e1;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+}
+
+
+.form-header {
+  margin-bottom: 28px;
+}
+
+.form-header h3 {
+  margin: 0 0 6px;
+
+  font-size: 24px;
+  font-weight: 700;
+
+  color: #222;
+}
+
+.form-header p {
+  margin: 0;
+
+  color: #666;
+  font-size: 14px;
+}
+
+.auto-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+
+  gap: 20px;
 }
 
-label {
-  font-weight: bold;
-  margin-bottom: 5px;
+.campo {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
 }
 
-input[type="text"],
-input[type="number"],
-select {
-  padding: 10px;
+.campo label {
+  font-weight: 600;
+
+  color: #333;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  padding: 11px 12px;
+
   border: 1px solid #ccc;
   border-radius: 8px;
+
+  background: #f5f5f5;
+
   font-size: 15px;
-  transition: 0.2s;
+
+  transition: .2s ease;
 }
 
-input:focus,
-select:focus {
-  border-color: #4e8df5;
+.campo input:focus,
+.campo select:focus {
   outline: none;
-  box-shadow: 0 0 4px rgba(78, 141, 245, 0.4);
+
+  border-color: #0d6efd;
+
+  background: #ffffff;
+
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, .12);
 }
 
-/* Texto de error */
-p {
-  margin: 0;
+.form-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 18px;
+}
+
+
+.campo-con-accion {
+  display: grid;
+
+  grid-template-columns: 1fr auto;
+
+  gap: 10px;
+}
+
+.campo-con-accion select {
+  min-width: 0;
+}
+
+
+.mensaje-error {
+  color: #b00020;
+
   font-size: 13px;
-  color: #d9534f;
 }
 
-/* Botones generales */
-button {
-  padding: 10px 16px;
+
+
+.campo-disponibilidad {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 16px;
+
+  background: #f7f7f7;
+
+  border-radius: 10px;
+}
+
+.campo-disponibilidad label {
+  font-weight: 600;
+}
+
+.campo-disponibilidad p {
+  margin: 4px 0 0;
+
+  color: #777;
+
+  font-size: 13px;
+}
+
+
+/* SWITCH */
+
+.switch {
+  position: relative;
+
+  display: inline-block;
+
+  width: 48px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+
+  inset: 0;
+
+  background: #ccc;
+
+  border-radius: 26px;
+
+  cursor: pointer;
+
+  transition: .25s;
+}
+
+.slider::before {
+  content: "";
+
+  position: absolute;
+
+  width: 20px;
+  height: 20px;
+
+  left: 3px;
+  bottom: 3px;
+
+  background: white;
+
+  border-radius: 50%;
+
+  transition: .25s;
+}
+
+.switch input:checked + .slider {
+  background: #0d6efd;
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(22px);
+}
+
+
+.acciones-form,
+.acciones-modal {
+  display: flex;
+
+  gap: 12px;
+
+  margin-top: 5px;
+}
+
+.btn-guardar,
+.btn-limpiar,
+.btn-cancelar,
+.btn-secundario {
+  padding: 11px 20px;
+
   border: none;
   border-radius: 8px;
+
+  font-weight: 600;
+
   cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s;
+
+  transition: .2s ease;
 }
 
-button:hover {
-  opacity: 0.9;
-  transform: scale(1.02);
-}
 
-/* Botón de submit */
-button[type="submit"] {
-  background: #4caf50;
+.btn-guardar {
+  background: #0d6efd;
   color: white;
 }
 
-button[type="reset"] {
-  background: #f0ad4e;
-  color: white;
+.btn-guardar:hover:not(:disabled) {
+  background: #0b5ed7;
+
+  transform: translateY(-2px);
 }
 
-button[disabled] {
-  background: #999 !important;
+.btn-guardar:disabled {
+  background: #ccc;
+  color: #777;
+
   cursor: not-allowed;
-  transform: none !important;
 }
 
-/* Botón cancelar edición */
-button.cancelar-edicion {
-  background: #d9534f;
-  color: white;
+
+.btn-limpiar {
+  background: #e9ecef;
+  color: #333;
 }
 
-/* Botones secundarios (Agregar marca/modelo) */
-button[type="button"] {
-  background: #0275d8;
-  color: white;
+.btn-limpiar:hover {
+  background: #dfe3e6;
 }
 
-/* ================================
-   MODALES
-   ================================ */
+
+.btn-cancelar {
+  background: transparent;
+
+  color: #6c757d;
+
+  border: 1px solid #ccc;
+}
+
+.btn-cancelar:hover {
+  background: #f5f5f5;
+}
+
+
+.btn-secundario {
+  background: #e9ecef;
+  color: #333;
+
+  white-space: nowrap;
+}
+
+.btn-secundario:hover:not(:disabled) {
+  background: #dfe3e6;
+}
+
+.btn-secundario:disabled {
+  opacity: .5;
+
+  cursor: not-allowed;
+}
+
 
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
+
+  inset: 0;
+
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(0, 0, 0, .55);
+
   z-index: 2000;
-  animation: fadeIn 0.2s ease-in-out;
+
+  animation: fadeIn .2s ease;
 }
 
-/* Caja interna del modal */
-.modal > div {
-  background: white;
-  padding: 25px;
-  width: 350px;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  animation: scaleIn 0.25s ease-out;
-}
-
-/* Botones dentro del modal */
-.modal button {
+.modal-contenido {
   width: 100%;
+  max-width: 480px;
+
+  padding: 26px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  box-shadow: 0 10px 35px rgba(0, 0, 0, .25);
+
+  animation: scaleIn .2s ease;
 }
 
-/* Guardar */
-.modal button:first-of-type {
-  background: #4caf50;
-  color: white;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 22px;
 }
 
-/* Cancelar */
-.modal button:last-of-type {
-  background: #d9534f;
-  color: white;
+.modal-header h3 {
+  margin: 0;
+
+  font-size: 22px;
 }
 
-/* Animaciones */
+.modal-cerrar {
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f1f1f1;
+
+  color: #555;
+
+  cursor: pointer;
+}
+
+.modal-cerrar:hover {
+  background: #e4e4e4;
+}
+
+
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
 }
 
 @keyframes scaleIn {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+
+  from {
+    opacity: 0;
+    transform: scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+}
+
+@media (max-width: 650px) {
+
+  .auto-form-card {
+    padding: 22px;
+  }
+
+  .form-grid,
+  .campo-con-accion {
+    grid-template-columns: 1fr;
+  }
+
+  .acciones-form,
+  .acciones-modal {
+    flex-direction: column;
+  }
+
+  .acciones-form button,
+  .acciones-modal button,
+  .btn-secundario {
+    width: 100%;
+  }
+
 }

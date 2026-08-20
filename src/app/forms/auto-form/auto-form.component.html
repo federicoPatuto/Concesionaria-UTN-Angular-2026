@@ -1,132 +1,420 @@
-<form [formGroup]="formAuto" (ngSubmit)="onSubmit()">
-  @if(modoEdicion === false){
-    <label>Marca</label>
-    <select formControlName="idMarca" (change)="filtrarModelosPorMarca()">
-      <option value="">Seleccione una marca</option>
-      @for (marca of marcas(); track $index) {
-          <option [value]="marca.id">{{ marca.nombre }}</option>
+<div class="auto-form-card">
+
+  <div class="form-header">
+    <div>
+      <h3>
+        {{ modoEdicion ? 'Editar vehículo' : 'Agregar vehículo' }}
+      </h3>
+
+      <p>
+        {{ modoEdicion
+          ? 'Modificá el precio o disponibilidad del vehículo.'
+          : 'Completá la información necesaria para registrar un nuevo vehículo.' }}
+      </p>
+    </div>
+  </div>
+
+  <form
+    class="auto-form"
+    [formGroup]="formAuto"
+    (ngSubmit)="onSubmit()">
+
+    @if(modoEdicion === false){
+
+      <div class="campo">
+
+        <label>Marca</label>
+
+        <div class="campo-con-accion">
+
+          <select
+            formControlName="idMarca"
+            (change)="filtrarModelosPorMarca()">
+
+            <option value="">
+              Seleccione una marca
+            </option>
+
+            @for (marca of marcas(); track $index) {
+              <option [value]="marca.id">
+                {{ marca.nombre }}
+              </option>
+            }
+
+          </select>
+
+          <button
+            class="btn-secundario"
+            type="button"
+            (click)="abrirModalMarca()">
+            Nueva marca
+          </button>
+
+        </div>
+
+        @if(
+          formAuto.get('idMarca')?.touched &&
+          formAuto.get('idMarca')?.errors?.['required']
+        ){
+          <small class="mensaje-error">
+            El campo marca no puede estar vacío.
+          </small>
+        }
+
+      </div>
+
+
+      <div class="campo">
+
+        <label>Modelo</label>
+
+        <div class="campo-con-accion">
+
+          <select formControlName="idModelo">
+
+            <option value="">
+              Seleccione un modelo
+            </option>
+
+            @for (modelo of modelosFiltrados(); track $index) {
+              <option [value]="modelo.id">
+                {{ modelo.nombre }} - {{ modelo.anio }}
+              </option>
+            }
+
+          </select>
+
+          <button
+            class="btn-secundario"
+            type="button"
+            [disabled]="!formAuto.get('idMarca')?.value"
+            (click)="abrirModalModelo()">
+            Nuevo modelo
+          </button>
+
+        </div>
+
+        @if(
+          formAuto.get('idModelo')?.touched &&
+          formAuto.get('idModelo')?.errors?.['required']
+        ){
+          <small class="mensaje-error">
+            El campo modelo no puede estar vacío.
+          </small>
+        }
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="campo">
+
+          <label>Color</label>
+
+          <select formControlName="color">
+            <option value="Negro">Negro</option>
+            <option value="Gris topo">Gris topo</option>
+            <option value="Verde musgo">Verde musgo</option>
+            <option value="Rojo">Rojo</option>
+            <option value="Dorado">Dorado</option>
+            <option value="Plateado">Plateado</option>
+            <option value="Amarillo">Amarillo</option>
+            <option value="Blanco">Blanco</option>
+          </select>
+
+        </div>
+
+
+        <div class="campo">
+
+          <label>Kilómetros</label>
+
+          <input
+            formControlName="kilometros"
+            type="number">
+
+          @if(formAuto.get('kilometros')?.touched){
+
+            @if(formAuto.get('kilometros')?.errors?.['required']){
+              <small class="mensaje-error">
+                El campo kilómetros no puede estar vacío.
+              </small>
+            }
+
+            @else if(formAuto.get('kilometros')?.errors?.['min']){
+              <small class="mensaje-error">
+                El kilometraje no puede ser menor a 0.
+              </small>
+            }
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <div class="campo">
+
+        <label>Imagen</label>
+
+        <input
+          formControlName="imagen"
+          type="text"
+          placeholder="URL de la imagen">
+
+      </div>
+
+    }
+
+
+    <div class="campo">
+
+      <label>Precio</label>
+
+      <input
+        formControlName="precio"
+        type="number">
+
+      @if(formAuto.get('precio')?.touched){
+
+        @if(formAuto.get('precio')?.errors?.['required']){
+          <small class="mensaje-error">
+            El campo precio no puede estar vacío.
+          </small>
+        }
+
+        @else if(formAuto.get('precio')?.errors?.['min']){
+          <small class="mensaje-error">
+            El precio debe ser mayor a 0.
+          </small>
+        }
+
       }
-    </select>
-    @if(formAuto.get('idMarca')?.touched && formAuto.get('idMarca')?.errors?.['required']){
-      <p>El campo marca no puede estar vacío</p>
-    }
-      <button type="button" (click)="abrirModalMarca()">Agregar nueva marca</button>
+
+    </div>
 
 
-    <label>Modelo</label>
-    <select formControlName="idModelo">
-      <option value="">Seleccione un modelo</option>
-      @for (modelo of modelosFiltrados(); track $index) {
-          <option [value]="modelo.id">{{ modelo.nombre }} - {{modelo.anio}}</option>
+    <div class="campo-disponibilidad">
+
+      <div>
+        <label>Disponibilidad</label>
+      </div>
+
+      <label class="switch">
+
+        <input
+          formControlName="disponible"
+          type="checkbox">
+
+        <span class="slider"></span>
+
+      </label>
+
+    </div>
+
+
+    <div class="acciones-form">
+
+      <button
+        class="btn-guardar"
+        type="submit"
+        [disabled]="formAuto.invalid">
+
+        {{ modoEdicion ? 'Guardar cambios' : 'Guardar auto' }}
+
+      </button>
+
+
+      @if(!modoEdicion){
+
+        <button
+          class="btn-limpiar"
+          type="reset">
+          Limpiar
+        </button>
+
       }
-    </select>
-    @if(formAuto.get('idModelo')?.touched && formAuto.get('idModelo')?.errors?.['required']){
-      <p>El campo modelo no puede estar vacío</p>
-    }
-    <button type="button" [disabled]="!formAuto.get('idMarca')?.value" (click)="abrirModalModelo()">Agregar nuevo modelo</button>
 
-    <label>Color</label>
-    <select formControlName="color">
-      <option value="Negro">Negro</option>
-      <option value="Gris topo">topo</option>
-      <option value="Verde musgo">musgo</option>
-      <option value="Rojo">Rojo</option>
-      <option value="Dorado">Dorado</option>
-      <option value="Plateado">Plateado</option>
-      <option value="Amarillo">Amarillo</option>
-      <option value="Blanco">Blanco</option>
-    </select>
 
-    <label>Kilómetros</label>
-    <input formControlName="kilometros" type="number">
-    @if(formAuto.get('kilometros')?.touched){
-      @if(formAuto.get('kilometros')?.errors?.['required']){
-          <p>El campo kilometros no puede estar vacío</p>
+      @if(modoEdicion){
+
+        <button
+          class="btn-cancelar"
+          type="button"
+          (click)="cancelarEdicion()">
+          Cancelar
+        </button>
+
       }
-      @else if(formAuto.get('kilometros')?.errors?.['min']){
-          <p>El kilometraje no puede ser menor a 0</p>
-      }
-    }
 
-    <label>Imagen (URL)</label>
-    <input formControlName="imagen" type="text">
-}
-  <label>Precio</label>
-  <input formControlName="precio" type="number">
-  @if(formAuto.get('precio')?.touched){
-    @if(formAuto.get('precio')?.errors?.['required']){
-        <p>El campo precio no puede estar vacío</p>
-    }
-    @else if(formAuto.get('precio')?.errors?.['min']){
-        <p>El precio debe ser mayor a 0</p>
-    }
-  }
+    </div>
 
-  <label>Disponible</label>
-  <input formControlName="disponible" type="checkbox">
+  </form>
 
-  <button type="submit" [disabled]="formAuto.invalid">Guardar Auto</button>
-  <button type="reset">Limpiar</button>
-  @if(modoEdicion){
-    <button type="button" (click)="cancelarEdicion()">Cancelar</button>
-  }
+</div>
 
-</form>
 
 @if (mostrarModalMarca){
-    <div class="modal">
-        <div>
-            <h3>Nueva Marca</h3>
 
-            <label>Nombre</label>
-            <input [(ngModel)]="nombreMarcaNueva" />
+  <div class="modal">
 
-            <button (click)="crearMarca()">Guardar</button>
-            <button (click)="cerrarModalMarca()">Cancelar</button>
-        </div>
+    <div class="modal-contenido">
+
+      <div class="modal-header">
+
+        <h3>Nueva marca</h3>
+
+        <button
+          class="modal-cerrar"
+          type="button"
+          (click)="cerrarModalMarca()">
+          ✕
+        </button>
+
+      </div>
+
+      <div class="campo">
+
+        <label>Nombre</label>
+
+        <input
+          [(ngModel)]="nombreMarcaNueva"
+          type="text">
+
+      </div>
+
+      <div class="acciones-modal">
+
+        <button
+          class="btn-guardar"
+          type="button"
+          (click)="crearMarca()">
+          Guardar
+        </button>
+
+        <button
+          class="btn-cancelar"
+          type="button"
+          (click)="cerrarModalMarca()">
+          Cancelar
+        </button>
+
+      </div>
+
     </div>
+
+  </div>
+
 }
+
 
 @if (mostrarModalModelo){
-    <div class="modal">
-        <div>
-            <h3>Nuevo Modelo</h3>
 
-            <label>Nombre</label>
-            <input [(ngModel)]="nuevoModeloNombre" type="text">
+  <div class="modal">
 
-            <label>Año</label>
-            <input [(ngModel)]="nuevoModeloAnio" type="number">
+    <div class="modal-contenido">
 
-            <label>HP</label>
-            <input [(ngModel)]="nuevoModeloHp" type="number">
+      <div class="modal-header">
 
-            <label>Transmisión</label>
-            <select [(ngModel)]="nuevoModeloTransmision">
-                <option value="Manual">Manual</option>
-                <option value="Automatica">Automática</option>
-            </select>
+        <h3>Nuevo modelo</h3>
 
-            <label>Combustible</label>
-            <select [(ngModel)]="nuevoModeloCombustible">
-                <option value="Nafta">Nafta</option>
-                <option value="Diesel">Diesel</option>
-                <option value="GNC">GNC</option>
-                <option value="Eléctrico">Eléctrico</option>
-            </select>
+        <button
+          class="modal-cerrar"
+          type="button"
+          (click)="cerrarModalModelo()">
+          ✕
+        </button>
 
-            <button (click)="crearModelo()">Guardar</button>
-            <button (click)="cerrarModalModelo()">Cancelar</button>
+      </div>
+
+
+      <div class="campo">
+
+        <label>Nombre</label>
+
+        <input
+          [(ngModel)]="nuevoModeloNombre"
+          type="text">
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="campo">
+
+          <label>Año</label>
+
+          <input
+            [(ngModel)]="nuevoModeloAnio"
+            type="number">
+
         </div>
+
+        <div class="campo">
+
+          <label>HP</label>
+
+          <input
+            [(ngModel)]="nuevoModeloHp"
+            type="number">
+
+        </div>
+
+      </div>
+
+
+      <div class="form-grid">
+
+        <div class="campo">
+
+          <label>Transmisión</label>
+
+          <select [(ngModel)]="nuevoModeloTransmision">
+            <option value="Manual">Manual</option>
+            <option value="Automatica">Automática</option>
+          </select>
+
+        </div>
+
+        <div class="campo">
+
+          <label>Combustible</label>
+
+          <select [(ngModel)]="nuevoModeloCombustible">
+            <option value="Nafta">Nafta</option>
+            <option value="Diesel">Diesel</option>
+            <option value="GNC">GNC</option>
+            <option value="Eléctrico">Eléctrico</option>
+          </select>
+
+        </div>
+
+      </div>
+
+
+      <div class="acciones-modal">
+
+        <button
+          class="btn-guardar"
+          type="button"
+          (click)="crearModelo()">
+          Guardar
+        </button>
+
+        <button
+          class="btn-cancelar"
+          type="button"
+          (click)="cerrarModalModelo()">
+          Cancelar
+        </button>
+
+      </div>
+
     </div>
+
+  </div>
+
 }
-
-<p>Formulario válido: {{ formAuto.valid }}</p>
-
-<pre>{{ formAuto.value | json }}</pre>
-
-<div *ngFor="let control of formAuto.controls | keyvalue">
-  {{ control.key }} -
-  Válido: {{ control.value.valid }} -
-  Errores: {{ control.value.errors | json }}
-</div>

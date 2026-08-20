@@ -1,153 +1,416 @@
-
 @let detalleAuto = detalleAutoComputed();
 @let usuarioEnLinea = this.authService.getUsuarioEnLinea();
 
-@if(isLoading()){
+@if(isLoading()) {
   <p>Cargando...</p>
 }
-  @if (detalleAuto) {
 
-      <div class="detalle-container" [class.blur]="mostrarFinanciacion()">
+@if (detalleAuto) {
 
+  <div class="detalle-container" [class.blur]="mostrarFinanciacion()">
 
-      <div class="galeria">
+    <div class="galeria">
 
-        <img class="car-img-principal" [src]="detalleAuto.imagen[currentIndex]" alt="Foto del auto" />
+      <img
+        class="car-img-principal"
+        [src]="detalleAuto.imagen[currentIndex]"
+        alt="Foto del auto">
 
-        <div class="miniaturas">
-          @for (img of detalleAuto.imagen; track $index; let i = $index) {
-            <img
-              class="miniatura"
-              [class.activa]="i === currentIndex"
-              [src]="img"
-              (click)="currentIndex = i"
-            />
-          }
-        </div>
-      </div>
+      <div class="miniaturas">
 
-      <div class="info-auto">
-        @if(!detalleAutoComputed()?.auto?.disponible){
-        <div class="mensaje-no-disponible">
-            Este vehículo no se encuentra disponible actualmente.
-        </div>
+        @for (img of detalleAuto.imagen; track $index; let i = $index) {
+
+          <img
+            class="miniatura"
+            [class.activa]="i === currentIndex"
+            [src]="img"
+            (click)="currentIndex = i">
+
         }
-        <h2>{{ detalleAuto.marca.nombre }} {{ detalleAuto.modelo.nombre }} ({{ detalleAuto.anio }})</h2>
 
-        <p><strong>Precio:</strong> ${{ detalleAuto.auto.precio }}</p>
-        <p><strong>Color:</strong> {{ detalleAuto.auto.color }}</p>
-        <p><strong>Kilometraje:</strong> {{ detalleAuto.auto.kilometros }} km</p>
-        <p><strong>Potencia:</strong> {{ detalleAuto.modelo.hp }}</p>
-        <p><strong>Transmisión:</strong> {{ detalleAuto.modelo.transmision }}</p>
-        <p><strong>Combustible:</strong> {{ detalleAuto.modelo.combustible }}</p>
-
-        <p><strong>Concesionaria:</strong> {{ detalleAuto.concesionaria.nombre }}</p>
-        <p><strong>Teléfono:</strong> {{ detalleAuto.concesionaria.telefono }}</p>
-        <p><strong>Dirección:</strong> {{ detalleAuto.concesionaria.direccion }}</p>
-
-        <div class="botones">
-          <button class="volver" (click)="volver()">Volver al catálogo</button>
-          <button class="btn btn-primario" (click)="abrirFinanciacion(detalleAuto.auto.precio)">Calcular financiación</button>
-
-          @if (!usuarioEnLinea || usuarioEnLinea.tipo === 'cliente'){
-            @if(usuarioEnLinea?.tipo === 'cliente' && this.favoritosService.esFavorito(detalleAuto.auto.id)){
-              <button class="favoritos" (click)="eliminarFavorito(detalleAuto.auto.id)">Eliminar de Favoritos</button>
-            }
-            @else{
-              <button class="favoritos" (click)="agregarFavorito(detalleAuto.auto.id)">Agregar a Favoritos</button>
-            }
-
-            <button class="cita" (click)="mostrarForm()" [disabled]="!detalleAutoComputed()?.auto?.disponible">Solicitar Cita</button>
-            @if(formularioVisible()){
-              <div class="formulario-cita">
-                <form [formGroup]="formCita" (ngSubmit)="onSubmit()">
-
-                  <label>Fecha</label>
-                  <input type="date" formControlName="fecha">
-                  @if(formCita.get('fecha')?.touched && formCita.get('fecha')?.errors?.['required']){
-                    <p style="color: red">El campo fecha es obligatorio</p>
-                  }
-
-                  <label>Hora</label>
-                  <input type="time" formControlName="hora">
-                  @if(formCita.get('hora')?.touched && formCita.get('hora')?.errors?.['required']){
-                    <p style="color: red">El campo horario es obligatorio</p>
-                  }
-
-                  <label>Motivo</label>
-                  <input type="text" formControlName="motivo" placeholder="Motivo de la cita (opcional)">
-
-                  <input type="hidden" formControlName="idUsuario">
-                  <input type="hidden" formControlName="idAuto">
-                  <input type="hidden" formControlName="idConcesionaria">
-
-                  <button type="submit" [disabled]="formCita.invalid">Confirmar Cita</button>
-                  <button type ="reset">Limpiar</button>
-                  <button type = "button" (click)="ocultarForm()">Cerrar</button>
-
-                </form>
-              </div>
-            }
-          }
-          @else {
-            <button class="eliminar" type="button" (click)="eliminarAuto(detalleAuto.auto.id)">Eliminar</button>
-            <button class="Editar" type="button" (click)="activarEdicion()">Editar</button>
-            @if(modoEdicion()){
-              <app-auto-form [auto]="detalleAuto" [modoEdicion]="true" (guardar)="guardarCambios($event)" (cancelar)="cancelarEdicion()"></app-auto-form>
-            }
-
-          }
-        </div>
       </div>
+
     </div>
 
-  } @else {
+
+    <div class="info-auto">
+
+      @if(!detalleAuto.auto.disponible) {
+        <div class="mensaje-no-disponible">
+          Este vehículo no se encuentra disponible actualmente.
+        </div>
+      }
+
+      <h2>
+        {{ detalleAuto.marca.nombre }}
+        {{ detalleAuto.modelo.nombre }}
+        ({{ detalleAuto.anio }})
+      </h2>
+
+      <p>
+        <strong>Precio:</strong>
+        <span class="precio">
+          {{ detalleAuto.auto.precio | currency:'ARS':'$':'1.0-0' }}
+        </span>
+      </p>
+
+      <p>
+        <strong>Color:</strong>
+        {{ detalleAuto.auto.color }}
+      </p>
+
+      <p>
+        <strong>Kilometraje:</strong>
+        {{ detalleAuto.auto.kilometros }} km
+      </p>
+
+      <p>
+        <strong>Potencia:</strong>
+        {{ detalleAuto.modelo.hp }} HP
+      </p>
+
+      <p>
+        <strong>Transmisión:</strong>
+        {{ detalleAuto.modelo.transmision }}
+      </p>
+
+      <p>
+        <strong>Combustible:</strong>
+        {{ detalleAuto.modelo.combustible }}
+      </p>
+
+      <p>
+        <strong>Concesionaria:</strong>
+        {{ detalleAuto.concesionaria.nombre }}
+      </p>
+
+      <p>
+        <strong>Teléfono:</strong>
+        {{ detalleAuto.concesionaria.telefono }}
+      </p>
+
+      <p>
+        <strong>Dirección:</strong>
+        {{ detalleAuto.concesionaria.direccion }}
+      </p>
+
+
+      <!-- ==========================
+           BOTONES
+      =========================== -->
+
+      <div class="botones">
+
+        <button
+          class="volver"
+          type="button"
+          (click)="volver()">
+          Volver al catálogo
+        </button>
+
+        <button
+          class="btn btn-primario"
+          type="button"
+          (click)="abrirFinanciacion(detalleAuto.auto.precio)">
+          Calcular financiación
+        </button>
+
+
+        <!-- CLIENTE / USUARIO NO LOGUEADO -->
+
+        @if (!usuarioEnLinea || usuarioEnLinea.tipo === 'cliente') {
+
+          @if(
+            usuarioEnLinea?.tipo === 'cliente' &&
+            favoritosService.esFavorito(detalleAuto.auto.id)
+          ) {
+
+            <button
+              class="favoritos"
+              type="button"
+              (click)="eliminarFavorito(detalleAuto.auto.id)">
+              Eliminar de Favoritos
+            </button>
+
+          }
+          @else {
+
+            <button
+              class="favoritos"
+              type="button"
+              (click)="agregarFavorito(detalleAuto.auto.id)">
+              Agregar a Favoritos
+            </button>
+
+          }
+
+          <button
+            class="cita"
+            type="button"
+            (click)="mostrarForm()"
+            [disabled]="!detalleAuto.auto.disponible">
+            Solicitar Cita
+          </button>
+
+        }
+
+
+        <!-- ADMIN -->
+
+        @else {
+
+          <button
+            class="eliminar"
+            type="button"
+            (click)="eliminarAuto(detalleAuto.auto.id)">
+            Eliminar
+          </button>
+
+          <button
+            class="Editar"
+            type="button"
+            (click)="activarEdicion()">
+            Editar
+          </button>
+
+        }
+
+      </div>
+
+
+      <!-- ==========================
+           FORMULARIO DE CITA
+           FUERA DE .botones
+      =========================== -->
+
+      @if(
+        (!usuarioEnLinea || usuarioEnLinea.tipo === 'cliente') &&
+        formularioVisible()
+      ) {
+
+        <div class="formulario-cita">
+
+          <div class="cita-header">
+
+            <div>
+
+              <h3>Solicitar cita</h3>
+
+              <p>
+                Seleccioná una fecha y horario para visitar
+                {{ detalleAuto.concesionaria.nombre }}.
+              </p>
+
+            </div>
+
+            <button
+              type="button"
+              class="btn-cerrar-cita"
+              (click)="ocultarForm()">
+              ✕
+            </button>
+
+          </div>
+
+
+          <form
+            class="cita-form"
+            [formGroup]="formCita"
+            (ngSubmit)="onSubmit()">
+
+
+            <div class="cita-grid">
+
+              <div class="campo-cita">
+
+                <label>Fecha</label>
+
+                <input
+                  type="date"
+                  formControlName="fecha">
+
+                @if(
+                  formCita.get('fecha')?.touched &&
+                  formCita.get('fecha')?.errors?.['required']
+                ) {
+
+                  <small class="error-cita">
+                    El campo fecha es obligatorio.
+                  </small>
+
+                }
+
+              </div>
+
+
+              <div class="campo-cita">
+
+                <label>Hora</label>
+
+                <input
+                  type="time"
+                  formControlName="hora">
+
+                @if(
+                  formCita.get('hora')?.touched &&
+                  formCita.get('hora')?.errors?.['required']
+                ) {
+
+                  <small class="error-cita">
+                    El campo horario es obligatorio.
+                  </small>
+
+                }
+
+              </div>
+
+            </div>
+
+
+            <div class="campo-cita">
+
+              <label>Motivo</label>
+
+              <input
+                type="text"
+                formControlName="motivo"
+                placeholder="Motivo de la cita (opcional)">
+
+            </div>
+
+
+            <input
+              type="hidden"
+              formControlName="idUsuario">
+
+            <input
+              type="hidden"
+              formControlName="idAuto">
+
+            <input
+              type="hidden"
+              formControlName="idConcesionaria">
+
+
+            <div class="acciones-cita">
+
+              <button
+                class="btn-confirmar-cita"
+                type="submit"
+                [disabled]="formCita.invalid">
+                Confirmar cita
+              </button>
+
+              <button
+                class="btn-limpiar-cita"
+                type="reset">
+                Limpiar
+              </button>
+
+              <button
+                class="btn-cancelar-cita"
+                type="button"
+                (click)="ocultarForm()">
+                Cancelar
+              </button>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      }
+
+
+      <!-- ==========================
+           EDICIÓN DE AUTO
+           FUERA DE .botones
+      =========================== -->
+
+      @if(usuarioEnLinea?.tipo === 'admin' && modoEdicion()) {
+
+        <div class="edicion-auto">
+
+          <app-auto-form
+            [auto]="detalleAuto"
+            [modoEdicion]="true"
+            (guardar)="guardarCambios($event)"
+            (cancelar)="cancelarEdicion()">
+          </app-auto-form>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+}
+@else {
+
+  @if(!isLoading()) {
     <p>No se encontró el auto</p>
   }
 
-  <!-- MODAL DE FINANCIACIÓN -->
+}
+
+
+<!-- ==========================
+     MODAL FINANCIACIÓN
+=========================== -->
+
 @if (mostrarFinanciacion()) {
+
   <div class="overlay">
+
     <app-financiacion
       [precio]="precioSeleccionado()!"
       (cerrarFinanciacion)="cerrarFinanciacion()">
     </app-financiacion>
+
   </div>
+
 }
 
-@if(recomendaciones().length){
 
-<h2>También podría interesarte</h2>
+<!-- ==========================
+     RECOMENDACIONES
+=========================== -->
 
-<div class="recomendaciones">
+@if(recomendaciones().length) {
 
-    @for(auto of recomendaciones(); track auto.auto.id){
+  <h2>También podría interesarte</h2>
 
-        <div class="recomendacion-card">
+  <div class="recomendaciones">
 
-            <img
-                [src]="auto.imagen[0]"
-                [alt]="auto.modelo.nombre">
+    @for(auto of recomendaciones(); track auto.auto.id) {
 
-            <h3>
+      <div class="recomendacion-card">
 
-                {{auto.marca.nombre}}
-                {{auto.modelo.nombre}}
+        <img
+          [src]="auto.imagen[0]"
+          [alt]="auto.modelo.nombre">
 
-            </h3>
+        <h3>
+          {{ auto.marca.nombre }}
+          {{ auto.modelo.nombre }}
+        </h3>
 
-            <p>
+        <p>
+          {{ auto.auto.precio | currency:'ARS':'$':'1.0-0' }}
+        </p>
 
-                $ {{auto.auto.precio}}
+        <button
+          [routerLink]="['/detalle', auto.auto.id]">
+          Ver detalle
+        </button>
 
-            </p>
-
-            <button [routerLink]="['/detalle',auto.auto.id]">Ver detalle</button>
-
-        </div>
+      </div>
 
     }
 
-</div>
+  </div>
 
 }

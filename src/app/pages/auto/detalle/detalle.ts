@@ -12,10 +12,12 @@ import { AutoCompleto } from '../../../interfaces/auto-completo.interface';
 import { Financiacion } from '../financiacion/financiacion';
 import { RecomendacionService } from '../../../services/recomendacion.service';
 import { RouterLink } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-detalle',
-  imports: [ReactiveFormsModule, AutoFormComponent, Financiacion, RouterLink],
+  imports: [ReactiveFormsModule, AutoFormComponent, Financiacion, RouterLink, CurrencyPipe, JsonPipe],
   templateUrl: './detalle.html',
   styleUrl: './detalle.css'
 })

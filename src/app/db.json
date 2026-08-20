@@ -23,6 +23,14 @@
     {
       "id": "6",
       "nombre": "Renault"
+    },
+    {
+      "id": "7",
+      "nombre": "Audi"
+    },
+    {
+      "id": "8",
+      "nombre": "Citroen"
     }
   ],
   "modelos": [
@@ -142,6 +150,78 @@
       "transmision": "Manual",
       "combustible": "Diesel",
       "idMarca": 6
+    },
+    {
+      "id": "14",
+      "nombre": "Logan",
+      "anio": 2015,
+      "hp": 150,
+      "transmision": "Manual",
+      "combustible": "Nafta",
+      "idMarca": 6
+    },
+    {
+      "id": "15",
+      "nombre": "A5",
+      "anio": 2020,
+      "hp": 273,
+      "transmision": "Automatica",
+      "combustible": "Nafta",
+      "idMarca": 7
+    },
+    {
+      "id": "16",
+      "nombre": "Hilux",
+      "anio": 2019,
+      "hp": 340,
+      "transmision": "Automatica",
+      "combustible": "Nafta",
+      "idMarca": 1
+    },
+    {
+      "id": "17",
+      "nombre": "C3 live",
+      "anio": 2020,
+      "hp": 89,
+      "transmision": "Automatica",
+      "combustible": "Nafta",
+      "idMarca": 8
+    },
+    {
+      "id": "18",
+      "nombre": "Cactus",
+      "anio": 2018,
+      "hp": 120,
+      "transmision": "Automatica",
+      "combustible": "Nafta",
+      "idMarca": 5
+    },
+    {
+      "id": "19",
+      "nombre": "Focus",
+      "anio": 2026,
+      "hp": 140,
+      "transmision": "Automatica",
+      "combustible": "Nafta",
+      "idMarca": 2
+    },
+    {
+      "id": "20",
+      "nombre": "Focus sportbreak",
+      "anio": 2025,
+      "hp": 140,
+      "transmision": "Automatica",
+      "combustible": "Nafta",
+      "idMarca": 2
+    },
+    {
+      "id": "21",
+      "nombre": "Ranger",
+      "anio": 2024,
+      "hp": 256,
+      "transmision": "Automatica",
+      "combustible": "Nafta",
+      "idMarca": 2
     }
   ],
   "concesionarias": [
@@ -244,10 +324,80 @@
       "precio": 19999,
       "color": "Verde musgo",
       "kilometros": 9000,
-      "disponible": false,
+      "disponible": true,
       "imagen": "",
       "idModelo": "4",
       "idConcesionaria": 2
+    },
+    {
+      "id": "9",
+      "precio": 10000,
+      "color": "Rojo",
+      "kilometros": 50000,
+      "disponible": true,
+      "imagen": "https://cdn.wheel-size.com/automobile/body/renault-logan-2014-2018-1731389604.1782942.jpg",
+      "idModelo": 14,
+      "idConcesionaria": 2
+    },
+    {
+      "id": "10",
+      "precio": 23000,
+      "color": "Negro",
+      "kilometros": 0,
+      "disponible": true,
+      "imagen": "https://acroadtrip.blob.core.windows.net/catalogo-imagenes/xl/RT_V_f290f6b7b270446b97b6b2e5c7868f52.jpg",
+      "idModelo": 15,
+      "idConcesionaria": 2
+    },
+    {
+      "id": "11",
+      "precio": 21000,
+      "color": "Blanco",
+      "kilometros": 82988,
+      "disponible": true,
+      "imagen": "https://i0.wp.com/minutomotor.com.ar/wp-content/uploads/2017/10/Toyota-Hilux-Limited-031017-05.jpg?resize=829%2C548&ssl=1",
+      "idModelo": 16,
+      "idConcesionaria": 2
+    },
+    {
+      "id": "12",
+      "precio": 12000,
+      "color": "Blanco",
+      "kilometros": 56000,
+      "disponible": true,
+      "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbEcyOvtXvQVjvA9MzLBP7c9MCq5fkTONiBQSDbHAWvQMgIY8rKAN8Aw7n&s=10",
+      "idModelo": 17,
+      "idConcesionaria": 2
+    },
+    {
+      "id": "13",
+      "precio": 14000,
+      "color": "Plateado",
+      "kilometros": 21000,
+      "disponible": true,
+      "imagen": "https://automobileslyon.com.ar/wp-content/uploads/2020/12/3-1-898x558.jpg?x32352",
+      "idModelo": 18,
+      "idConcesionaria": 1
+    },
+    {
+      "id": "14",
+      "precio": 25000,
+      "color": "Negro",
+      "kilometros": 24000,
+      "disponible": true,
+      "imagen": "https://cdn-xy.drivek.com/eyJidWNrZXQiOiJkYXRhay1jZG4teHkiLCJrZXkiOiJjb25maWd1cmF0b3ItaW1ncy9jYXJzL2ttNzdfZXMvb3JpZ2luYWwvRk9SRC9GT0NVUy81MDcxMl9GQU1JTElBUi01LVBVRVJUQVMvZm9jdXMtc3BvcnRicmVhay0wLmpwZyIsImVkaXRzIjp7InJlc2l6ZSI6eyJ3aWR0aCI6MTAyNCwiaGVpZ2h0IjpudWxsLCJmaXQiOiJjb3ZlciJ9fX0=",
+      "idModelo": 20,
+      "idConcesionaria": 1
+    },
+    {
+      "id": "15",
+      "precio": 31000,
+      "color": "Plateado",
+      "kilometros": 31000,
+      "disponible": true,
+      "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFp6eMvVrEumq5aolf3yUytKB959NuL_plJ7d53quGXWyOeN1q6KzeAw0&s=10",
+      "idModelo": 21,
+      "idConcesionaria": 1
     }
   ],
   "usuarios": [
@@ -348,6 +498,15 @@
       "motivo": "",
       "idUsuario": "1",
       "idAuto": 6,
+      "idConcesionaria": "2"
+    },
+    {
+      "id": 11,
+      "fecha": "2026-12-18",
+      "hora": "09:00",
+      "motivo": "",
+      "idUsuario": "1",
+      "idAuto": 10,
       "idConcesionaria": "2"
     }
   ]
