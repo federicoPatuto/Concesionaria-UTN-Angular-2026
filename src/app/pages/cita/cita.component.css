@@ -1,69 +1,234 @@
-* {
-  font-family: "Poppins", sans-serif;
-}
-.citas-container,
-.citas-admin {
-  max-width: 800px;
-  margin: 30px 0 30px 20px;
-  padding: 20px;
-  background: #d6d3d3;
-  border-radius: 12px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+.citas-page {
+  width: min(1100px, calc(100% - 40px));
+  margin: 40px auto;
 }
 
-/* UL LIMPIO */
-.citas-container ul {
-  list-style: none;
-  padding: 0;
+.citas-header {
+  margin-bottom: 30px;
+}
+
+.citas-header h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #222;
+}
+
+.citas-header p {
   margin: 0;
+  color: #666;
+  font-size: 15px;
 }
 
-/* TARJETA DE CADA CITA */
-.cita-item {
-  background: #2a2a2a;
-  padding: 16px 20px;
-  margin-bottom: 18px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  transition: .2s;
+.lista-citas {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-/* Hover suave */
-.cita-item:hover {
-  transform: scale(1.01);
-  background: #333;
+.cita-card {
+  width: 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 24px;
+
+  padding: 24px 26px;
+
+  background: #ffffff;
+
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  transition: 0.2s ease;
 }
 
-/* Título */
-.cita-item h3 {
-  color: #ffffff;
-  margin: 0 0 8px 0;
+.cita-card:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.cita-info {
+  flex: 1;
+}
+
+.cita-principal {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 20px;
+}
+
+.cita-principal h3 {
+  margin: 0;
+
   font-size: 20px;
+  font-weight: 700;
+
+  color: #222;
 }
 
-/* Texto */
-.detalles-fechas,
-.detalles-fechas-admin {
-    font-size: 15px;
-    color: #0f0f0f;
-    margin-top: 6px;
-    line-height: 1.5;
+.sucursal {
+  padding: 5px 10px;
+
+  border-radius: 20px;
+
+  background: #eef4ff;
+  color: #0d6efd;
+
+  font-size: 12px;
+  font-weight: 600;
 }
 
+.datos-cita {
+  display: grid;
 
-/* Botón eliminar */
-button.eliminar-cita {
-  background: #d9534f;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+
+  gap: 20px;
+}
+
+.dato {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.dato-label {
+  font-size: 12px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+
+  color: #888;
+}
+
+.dato-valor {
+  font-size: 15px;
+
+  color: #333;
+}
+
+.direccion {
+  min-width: 220px;
+}
+
+.cita-acciones {
+  display: flex;
+  align-items: center;
+
+  flex-shrink: 0;
+}
+
+.eliminar-cita {
+  padding: 10px 16px;
+
   border: none;
-  padding: 8px 14px;
+  border-radius: 8px;
+
+  background: #dc3545;
   color: white;
-  border-radius: 6px;
+
+  font-weight: 600;
+
   cursor: pointer;
-  font-weight: bold;
-  transition: 0.2s;
+
+  transition: 0.2s ease;
 }
 
-.eliminar:hover {
-  opacity: .85;
-  transform: scale(1.05);
+.eliminar-cita:hover {
+  background: #c82333;
+
+  transform: translateY(-2px);
+}
+
+.estado-vacio {
+  padding: 45px 30px;
+
+  text-align: center;
+
+  background: #ffffff;
+
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.estado-vacio h3 {
+  margin: 0 0 8px;
+
+  font-size: 20px;
+
+  color: #333;
+}
+
+.estado-vacio p {
+  margin: 0;
+
+  color: #777;
+
+  font-size: 14px;
+}
+
+@media (max-width: 850px) {
+
+  .cita-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .datos-cita {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cita-acciones {
+    justify-content: flex-end;
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .citas-page {
+    width: min(100% - 24px, 1100px);
+
+    margin: 25px auto;
+  }
+
+  .cita-card {
+    padding: 20px;
+  }
+
+  .cita-principal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .datos-cita {
+    grid-template-columns: 1fr;
+  }
+
+  .direccion {
+    min-width: 0;
+  }
+
+  .cita-acciones {
+    justify-content: stretch;
+  }
+
+  .eliminar-cita {
+    width: 100%;
+  }
+
 }

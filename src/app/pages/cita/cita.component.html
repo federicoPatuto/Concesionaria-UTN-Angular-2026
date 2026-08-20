@@ -1,37 +1,225 @@
-<h2>{{usuarioEnLinea()?.tipo === 'cliente' ? 'Mis citas' : 'Citas de mi sucursal'}}</h2>
+<div class="citas-page">
 
-@if(usuarioEnLinea()?.tipo === 'cliente'){
+  <div class="citas-header">
+    <h2>
+      {{ usuarioEnLinea()?.tipo === 'cliente' ? 'Mis citas' : 'Citas de mi sucursal' }}
+    </h2>
+
+    <p>
+      {{ usuarioEnLinea()?.tipo === 'cliente'
+        ? 'Consultá tus próximas citas programadas.'
+        : 'Consultá las citas registradas para los vehículos de tu sucursal.' }}
+    </p>
+  </div>
+
+
+  @if(usuarioEnLinea()?.tipo === 'cliente'){
+
     @if(citasCliente() && citasCliente().length > 0){
-        <ul>
+
+      <div class="lista-citas">
+
         @for (cita of citasCliente(); track cita.cita.id) {
-            <div class="citas-container">
-            <li>
-                <h3>{{cita.auto.marca.nombre}} {{cita.auto.modelo.nombre}} {{cita.auto.anio}}</h3>
-                <p class="detalle-fechas">{{cita.cita.fecha}} -- {{cita.cita.hora}} || {{cita.auto.concesionaria.nombre}} Dirección: {{cita.auto.concesionaria.direccion}}</p>
-                <button class="eliminar-cita" type = "button" (click)="eliminarCita(cita.cita.id)">Eliminar</button>
-            </li>
+
+          <article class="cita-card">
+
+            <div class="cita-info">
+
+              <div class="cita-principal">
+
+                <h3>
+                  {{ cita.auto.marca.nombre }}
+                  {{ cita.auto.modelo.nombre }}
+                  {{ cita.auto.anio }}
+                </h3>
+
+                <span class="sucursal">
+                  {{ cita.auto.concesionaria.nombre }}
+                </span>
+
+              </div>
+
+
+              <div class="datos-cita">
+
+                <div class="dato">
+
+                  <span class="dato-label">
+                    Fecha
+                  </span>
+
+                  <span class="dato-valor">
+                    {{ cita.cita.fecha }}
+                  </span>
+
+                </div>
+
+                <div class="dato">
+
+                  <span class="dato-label">
+                    Hora
+                  </span>
+
+                  <span class="dato-valor">
+                    {{ cita.cita.hora }}
+                  </span>
+
+                </div>
+
+                <div class="dato direccion">
+
+                  <span class="dato-label">
+                    Dirección
+                  </span>
+
+                  <span class="dato-valor">
+                    {{ cita.auto.concesionaria.direccion }}
+                  </span>
+
+                </div>
+
+              </div>
+
             </div>
+
+
+            <div class="cita-acciones">
+
+              <button
+                class="eliminar-cita"
+                type="button"
+                (click)="eliminarCita(cita.cita.id)">
+                Eliminar cita
+              </button>
+
+            </div>
+
+          </article>
+
         }
-        </ul>
+
+      </div>
+
     }
     @else{
+
+      <div class="estado-vacio">
+
         <h3>No hay citas registradas</h3>
+
+        <p>
+          Cuando solicites una cita para un vehículo, aparecerá en esta sección.
+        </p>
+
+      </div>
+
     }
-}
-@else if(usuarioEnLinea()?.tipo === 'admin'){
+
+  }
+
+
+  @else if(usuarioEnLinea()?.tipo === 'admin'){
+
     @if(citasAdmin() && citasAdmin().length > 0){
-        <ul>
+
+      <div class="lista-citas">
+
         @for (cita of citasAdmin(); track cita.cita.id) {
-            <div class="citas-admin">
-            <li>
-                <h3>{{cita.auto.marca.nombre}} {{cita.auto.modelo.nombre}} {{cita.auto.anio}}</h3>
-                <p class="detalles-fechas-admin">{{cita.cita.fecha}} -- {{cita.cita.hora}} || Cliente: {{cita.cliente.nombre}}</p>
-            </li>
+
+          <article class="cita-card">
+
+            <div class="cita-info">
+
+              <div class="cita-principal">
+
+                <h3>
+                  {{ cita.auto.marca.nombre }}
+                  {{ cita.auto.modelo.nombre }}
+                  {{ cita.auto.anio }}
+                </h3>
+
+                <span class="sucursal">
+                  {{ cita.auto.concesionaria.nombre }}
+                </span>
+
+              </div>
+
+
+              <div class="datos-cita">
+
+                <div class="dato">
+
+                  <span class="dato-label">
+                    Fecha
+                  </span>
+
+                  <span class="dato-valor">
+                    {{ cita.cita.fecha }}
+                  </span>
+
+                </div>
+
+                <div class="dato">
+
+                  <span class="dato-label">
+                    Hora
+                  </span>
+
+                  <span class="dato-valor">
+                    {{ cita.cita.hora }}
+                  </span>
+
+                </div>
+
+                <div class="dato">
+
+                  <span class="dato-label">
+                    Cliente
+                  </span>
+
+                  <span class="dato-valor">
+                    {{ cita.cliente.nombre }}
+                  </span>
+
+                </div>
+
+                <div class="dato">
+
+                  <span class="dato-label">
+                    Contacto
+                  </span>
+
+                  <span class="dato-valor">
+                    {{ cita.cliente.telefono }}
+                  </span>
+
+                </div>
+
+              </div>
+
             </div>
+
+          </article>
+
         }
-        </ul>
+
+      </div>
+
     }
     @else{
+
+      <div class="estado-vacio">
+
         <h3>No hay citas registradas</h3>
+
+        <p>
+          Actualmente no existen citas programadas para esta sucursal.
+        </p>
+
+      </div>
+
     }
-}
+
+  }
+
+</div>
