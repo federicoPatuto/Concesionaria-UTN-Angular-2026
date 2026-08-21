@@ -1,4 +1,4 @@
-<h1>Comparador de Vehículos</h1>
+<h1 class="titulo">Comparador de Vehículos</h1>
 
 @if(autosComparados().length < 2){
 
@@ -133,8 +133,10 @@
 
 <br>
 
-<button (click)="volver()">
-    Volver al catálogo
-</button>
+<div class = "volver-container">
+    <button class= "btn-volver" (click)="volver()">
+        Volver al catálogo
+    </button>
+</div>
 
 }

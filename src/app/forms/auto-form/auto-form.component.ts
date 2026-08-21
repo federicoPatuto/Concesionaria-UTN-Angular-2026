@@ -27,6 +27,7 @@ export class AutoFormComponent implements OnInit{
   private readonly formBuilder = inject(FormBuilder);
   private readonly autoService = inject(AutoService);
   private readonly authService = inject(AuthenticationService);
+  protected imagenesSeleccionadas: string[] = [];
 
   marcas = signal<Marca[]>([]);
   modelos = signal<Modelo[]>([]);
@@ -51,7 +52,7 @@ export class AutoFormComponent implements OnInit{
     color: ['', Validators.required],
     kilometros: [0, [Validators.required, Validators.min(0)]],
     disponible: [true],
-    imagen: [''], 
+    imagen: [[], Validators.required], 
     idMarca: ['', Validators.required], //Utilización temporal de este campo para acceder a las marcas disponibles. Se elimina antes de realizar el submit ya que no pertenece a la estructura Auto
     idModelo: ['', Validators.required],
     idConcesionaria: [null, Validators.required]
@@ -61,15 +62,23 @@ export class AutoFormComponent implements OnInit{
     idConcesionaria: this.adminEnLinea()?.idConcesionaria
   });
 
-    if (this.modoEdicion) {
-    //Por lógica de negocio, buscamos que solo puedan editarse el precio y la disponibilidad del auto.
+  if (this.modoEdicion) {
+
+    this.imagenesSeleccionadas = [...this.auto.imagen];
+
+    this.formAuto.patchValue({
+      precio: this.auto.auto.precio,
+      disponible: this.auto.auto.disponible,
+      imagen: this.imagenesSeleccionadas
+    });
+
     Object.keys(this.formAuto.controls).forEach(campo => {
-      if (!['precio', 'disponible'].includes(campo)) {
+      if (!['precio', 'disponible', 'imagen'].includes(campo)) {
         this.formAuto.get(campo)?.disable();
       }
     });
-    }
 
+  }
     this.cargarMarcas();
     this.cargarModelos();
   }
@@ -151,27 +160,97 @@ export class AutoFormComponent implements OnInit{
 }
 
   
-  onSubmit(): void{
-    if(this.formAuto.valid){
-      //Elimino el campo idMarca
-      const { idMarca, ...autoSinMarca } = this.formAuto.value;
-      if(this.modoEdicion){
-        const autoEditado = {
-          precio: this.formAuto.get('precio')?.value,
-          disponible: this.formAuto.get('disponible')?.value
-        }
-        this.guardar.emit(autoSinMarca);//Para la reutilización del formulario en otro componente, emitimos la orden de ejecutar la función asignada a guardar en detalle.html
-      }
-      else{
-        this.autoService.agregarAuto(autoSinMarca).subscribe(() => {
-          alert('Auto agregado con éxito');
-        })
-      }
+  onSubmit(): void {
+
+  if (this.formAuto.valid) {
+
+    const { idMarca, ...autoSinMarca } = this.formAuto.value;
+
+    if (this.modoEdicion) {
+
+      const autoEditado = {
+        precio: this.formAuto.get('precio')?.value,
+        disponible: this.formAuto.get('disponible')?.value,
+        imagen: this.imagenesSeleccionadas
+      };
+
+      this.guardar.emit(autoEditado);
+
     }
+    else {
+
+      this.autoService.agregarAuto(autoSinMarca).subscribe(() => {
+        alert('Auto agregado con éxito');
+      });
+
+    }
+
   }
+}
 
   cancelarEdicion() {
     this.cancelar.emit();
   }
+
+  onImagenesSeleccionadas(event: Event): void {
+  const input = event.target as HTMLInputElement;
+
+  if (!input.files || input.files.length === 0) {
+    return;
+  }
+
+  const archivos = Array.from(input.files);
+
+  const archivosImagen = archivos.filter(archivo =>
+    archivo.type.startsWith('image/')
+  );
+
+  if (archivosImagen.length !== archivos.length) {
+    alert('Solo pueden seleccionarse archivos de imagen.');
+  }
+
+  Promise.all(
+    archivosImagen.map(archivo => {
+      return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          resolve(reader.result as string);
+        };
+
+        reader.onerror = () => {
+          reject(reader.error);
+        };
+
+        reader.readAsDataURL(archivo);
+      });
+    })
+  ).then(imagenes => {
+
+        this.imagenesSeleccionadas = [
+      ...this.imagenesSeleccionadas,
+      ...imagenes
+    ];
+
+    this.formAuto.patchValue({
+      imagen: this.imagenesSeleccionadas
+    });
+
+  });
+}
+
+eliminarImagen(index: number): void {
+
+  if (this.imagenesSeleccionadas.length === 1) {
+    alert('El vehículo debe tener al menos una imagen.');
+    return;
+  }
+
+  this.imagenesSeleccionadas.splice(index, 1);
+
+  this.formAuto.patchValue({
+    imagen: [...this.imagenesSeleccionadas]
+  });
+}
 
 }

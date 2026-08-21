@@ -6,7 +6,9 @@ import { Injectable, computed, signal, effect } from '@angular/core';
 export class ComparadorService {
 
 
-  private readonly idsSeleccionados = signal<number[]>(JSON.parse(localStorage.getItem('comparador') ?? '[]'));
+  private readonly idsSeleccionados = signal<number[]>(
+  (JSON.parse(localStorage.getItem('comparador') ?? '[]') as unknown[])
+    .map(id => Number(id)));
 
 
   readonly ids = this.idsSeleccionados.asReadonly();
@@ -25,8 +27,9 @@ export class ComparadorService {
 });
 
   agregar(idAuto: number): void {
+    const id = Number(idAuto);
 
-    if (this.idsSeleccionados().includes(idAuto)) {
+    if (this.idsSeleccionados().includes(id)) {
       return;
     }
 
@@ -35,14 +38,16 @@ export class ComparadorService {
       return;
     }
 
-    this.idsSeleccionados.update(ids => [...ids, idAuto]);
-  }
+    this.idsSeleccionados.update(ids => [...ids, id]);
+}
 
   quitar(idAuto: number): void {
+    const id = Number(idAuto);
+
     this.idsSeleccionados.update(ids =>
-      ids.filter(id => id !== idAuto)
+      ids.filter(i => i !== id)
     );
-  }
+}
 
   limpiar(): void {
     this.idsSeleccionados.set([]);

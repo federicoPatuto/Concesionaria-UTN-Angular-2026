@@ -4,7 +4,7 @@ export interface Auto {
   color: string;
   kilometros: number;
   disponible: boolean;
-  imagen: string;
+  imagen: string[];
   idModelo: number;
   idConcesionaria: number;
 }

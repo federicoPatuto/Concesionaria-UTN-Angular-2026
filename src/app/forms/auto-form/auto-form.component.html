@@ -148,20 +148,50 @@
 
       </div>
 
-
-      <div class="campo">
-
-        <label>Imagen</label>
-
-        <input
-          formControlName="imagen"
-          type="text"
-          placeholder="URL de la imagen">
-
-      </div>
-
     }
 
+
+    <div class="campo">
+
+      <label>Imágenes del vehículo</label>
+
+      <label class="btn-seleccionar-imagenes">
+        Agregar Imágenes
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          (change)="onImagenesSeleccionadas($event)">
+      </label>
+
+      @if(imagenesSeleccionadas.length > 0){
+
+        <div class="preview-imagenes">
+
+          @for(imagen of imagenesSeleccionadas; track $index){
+
+            <div class="preview-item">
+
+              <img
+                [src]="imagen"
+                alt="Imagen del vehículo">
+
+              <button
+                type="button"
+                class="btn-eliminar-imagen"
+                (click)="eliminarImagen($index)">
+                ✕
+              </button>
+
+            </div>
+
+          }
+
+        </div>
+
+      }
+
+    </div>
 
     <div class="campo">
 

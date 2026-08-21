@@ -116,26 +116,33 @@ export class Detalle implements OnInit{
     this.modoEdicion.set(false);
   }
 
-  guardarCambios(autoActualizado: any){
-    const autoActualizadoPrimitivo: Auto = {
+  guardarCambios(autoActualizado: any) {
+
+  const autoActualizadoPrimitivo: Auto = {
+    ...this.auto()!.auto,
+    ...autoActualizado
+  };
+
+  const autoActualizadoCompleto: AutoCompleto = {
+    ...this.auto()!,
+    auto: {
       ...this.auto()!.auto,
       ...autoActualizado
-    }
+    },
+    imagen: autoActualizado.imagen ?? this.auto()!.imagen
+  };
 
-    const autoActualizadoCompleto: AutoCompleto = {
-      ...this.auto()!,
-      auto: {
-        ...this.auto()!.auto,
-        ...autoActualizado
-      }
-    }
-    this.autoService.modificarAuto(autoActualizadoPrimitivo)
+  this.autoService.modificarAuto(autoActualizadoPrimitivo)
     .subscribe(() => {
+
       this.auto.set(autoActualizadoCompleto);
+
       this.modoEdicion.set(false);
+
       alert('Auto actualizado con éxito');
+
     });
-  }
+}
 
 
   //Formulario de solicitud de cita

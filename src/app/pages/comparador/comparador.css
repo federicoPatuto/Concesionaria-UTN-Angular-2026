@@ -32,3 +32,33 @@
     object-fit:cover;
 
 }
+
+.btn-volver{
+    background: #0d6efd;
+    color: white;
+    padding: 11px 16px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s ease;
+  margin-bottom: 20px;
+}
+
+.titulo {
+  text-align: center;
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  padding: 10px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #007bff, #007baa);
+  color: white;
+}
+
+.volver-container {
+  display: flex;
+  justify-content: center;
+}
